@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="pratododia.css">
 </head>
 
-<section class="dish-of-the-day">
+<section class="dish-of-the-day" id="pratododia">
     <div class="container">
         <div class="dish-header">
             <h2>PRATO DO DIA</h2>

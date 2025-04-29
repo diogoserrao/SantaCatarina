@@ -21,6 +21,7 @@
         <nav id="main-nav">
             <ul>
                 <li><a href="#home">Início</a></li>
+                <li><a href="#pratododia">Prato do Dia</a></li>
                 <li><a href="#about">Sobre Nós</a></li>
                 <li><a href="#menu">Menu</a></li>
                 <li><a href="#gallery">Galeria</a></li>
