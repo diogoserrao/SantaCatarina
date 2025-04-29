@@ -41,27 +41,7 @@
         });
 
         // Filtro do Menu
-        const filterButtons = document.querySelectorAll('.menu-categories button');
-        const menuItems = document.querySelectorAll('.menu-item');
-
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove a classe active de todos os botões
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                // Adiciona a classe active apenas no botão clicado
-                button.classList.add('active');
-
-                const category = button.getAttribute('data-category');
-
-                menuItems.forEach(item => {
-                    if (category === 'all' || item.getAttribute('data-category') === category) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        });
+        
 
         // Controle do menu mobile
         document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {

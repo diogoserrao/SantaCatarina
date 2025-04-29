@@ -7,12 +7,16 @@
         <h2>Menu</h2>
         <div class="menu-categories">
             <button class="active" data-category="all">Tudo</button>
-            <button data-category="cafe">Cafés</button>
-            <button data-category="breakfast">Pequeno-almoço</button>
-            <button data-category="lunch">Almoço</button>
-            <button data-category="dessert">Sobremesas</button>
+            <button data-category="entradas">Entradas</button>
+            <button data-category="carnes">Carnes</button>
+            <button data-category="peixes">Peixes</button>
+            <button data-category="sandes">Sandes</button>
+            <button data-category="sobremesas">Sobremesas</button>
+            <button data-category="bebidas">Bebidas</button>
         </div>
-        <div class="menu-items">
+
+        <h3 class="section-subtitle">Destaques</h3>
+        <div class="featured-items">
             <!-- Item 1 -->
             <div class="menu-item" data-category="cafe">
                 <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Café Especial">
@@ -73,5 +77,154 @@
                 </div>
             </div>
         </div>
+        
+        <h3 class="section-subtitle">Menu Completo</h3>
+        <div class="menu-list">
+            <!-- Entradas -->
+            <div class="menu-section" data-category="entradas">
+                <h4>Entradas</h4>
+                <ul class="menu-items-list">
+                    <li>
+                        <div class="item-name">Croquetes de Bacalhau</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 8,90</div>
+                        <div class="item-description">Croquetes caseiros de bacalhau com molho tártaro</div>
+                    </li>
+                    <li>
+                        <div class="item-name">Tábua de Enchidos</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 12,00</div>
+                        <div class="item-description">Seleção de enchidos tradicionais portugueses</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Carnes -->
+            <div class="menu-section" data-category="carnes">
+                <h4>Carnes</h4>
+                <ul class="menu-items-list">
+                    <li>
+                        <div class="item-name">Bife à Portuguesa</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 24,50</div>
+                        <div class="item-description">Bife grelhado com ovo a cavalo, batata frita e arroz</div>
+                    </li>
+                    <li>
+                        <div class="item-name">Costeletas de Borrego</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 21,00</div>
+                        <div class="item-description">Servidas com puré de batata e legumes salteados</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Peixes -->
+            <div class="menu-section" data-category="peixes">
+                <h4>Peixes</h4>
+                <ul class="menu-items-list">
+                    <li>
+                        <div class="item-name">Bacalhau à Brás</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 17,90</div>
+                        <div class="item-description">Desfiado com batata palha, ovo e azeitonas</div>
+                    </li>
+                    <li>
+                        <div class="item-name">Dourada Grelhada</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 19,50</div>
+                        <div class="item-description">Acompanhada de legumes e batata cozida</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sandes -->
+            <div class="menu-section" data-category="sandes">
+                <h4>Sandes</h4>
+                <ul class="menu-items-list">
+                    <li>
+                        <div class="item-name">Sandes de Prego</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 7,00</div>
+                        <div class="item-description">Prego no pão com mostarda e batata frita</div>
+                    </li>
+                    <li>
+                        <div class="item-name">Sandes de Frango Grelhado</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 6,50</div>
+                        <div class="item-description">Frango grelhado com alface e molho de iogurte</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sobremesas -->
+            <div class="menu-section" data-category="sobremesas">
+                <h4>Sobremesas</h4>
+                <ul class="menu-items-list">
+                    <li>
+                        <div class="item-name">Mousse de Chocolate</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 4,20</div>
+                        <div class="item-description">Cremosa e intensa, com raspas de chocolate</div>
+                    </li>
+                    <li>
+                        <div class="item-name">Tarte de Amêndoa</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 4,80</div>
+                        <div class="item-description">Base crocante com cobertura de amêndoas caramelizadas</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Bebidas -->
+            <div class="menu-section" data-category="bebidas">
+                <h4>Bebidas</h4>
+                <ul class="menu-items-list">
+                    <li>
+                        <div class="item-name">Sumo Natural de Laranja</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 3,00</div>
+                        <div class="item-description">Espremido na hora</div>
+                    </li>
+                    <li>
+                        <div class="item-name">Copo de Vinho Tinto</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ 3,80</div>
+                        <div class="item-description">Vinho da casa, de produção regional</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryButtons = document.querySelectorAll('.menu-categories button');
+        const menuSections = document.querySelectorAll('.menu-section');
+        const featuredItems = document.querySelector('.featured-items');
+
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active de todos os botões
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const category = button.getAttribute('data-category');
+
+                if (category === 'all') {
+                    menuSections.forEach(section => section.style.display = 'block');
+                    featuredItems.style.display = 'grid';
+                } else {
+                    menuSections.forEach(section => {
+                        if (section.getAttribute('data-category') === category) {
+                            section.style.display = 'block';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                    featuredItems.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
