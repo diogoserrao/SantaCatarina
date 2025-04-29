@@ -6,7 +6,7 @@
     <div class="container">
         <h2>Menu</h2>
         <div class="menu-categories">
-            <button class="active" data-category="all">Tudo</button>
+            <button class="active" data-category="all">Destaques</button>
             <button data-category="entradas">Entradas</button>
             <button data-category="carnes">Carnes</button>
             <button data-category="peixes">Peixes</button>
@@ -15,7 +15,7 @@
             <button data-category="bebidas">Bebidas</button>
         </div>
 
-        <h3 class="section-subtitle">Destaques</h3>
+        <h3 class="section-subtitle featured-title">Destaques</h3>
         <div class="featured-items">
             <!-- Item 1 -->
             <div class="menu-item" data-category="cafe">
@@ -77,8 +77,8 @@
                 </div>
             </div>
         </div>
-        
-        <h3 class="section-subtitle">Menu Completo</h3>
+
+        <h3 class="section-subtitle  menu-complete-title">Menu Completo</h3>
         <div class="menu-list">
             <!-- Entradas -->
             <div class="menu-section" data-category="entradas">
@@ -202,27 +202,34 @@
         const categoryButtons = document.querySelectorAll('.menu-categories button');
         const menuSections = document.querySelectorAll('.menu-section');
         const featuredItems = document.querySelector('.featured-items');
+        const featuredTitle = document.querySelector('.featured-title');
+        const menuCompleteTitle = document.querySelector('.menu-complete-title');
+
+        // Mostrar só os destaques no início
+        menuSections.forEach(section => section.style.display = 'none');
+        featuredItems.style.display = 'grid';
+        featuredTitle.style.display = 'block';
+        menuCompleteTitle.style.display = 'none';
 
         categoryButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Remove active de todos os botões
                 categoryButtons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
 
                 const category = button.getAttribute('data-category');
 
                 if (category === 'all') {
-                    menuSections.forEach(section => section.style.display = 'block');
+                    menuSections.forEach(section => section.style.display = 'none');
                     featuredItems.style.display = 'grid';
+                    featuredTitle.style.display = 'block';
+                    menuCompleteTitle.style.display = 'none';
                 } else {
                     menuSections.forEach(section => {
-                        if (section.getAttribute('data-category') === category) {
-                            section.style.display = 'block';
-                        } else {
-                            section.style.display = 'none';
-                        }
+                        section.style.display = section.getAttribute('data-category') === category ? 'block' : 'none';
                     });
                     featuredItems.style.display = 'none';
+                    featuredTitle.style.display = 'none';
+                    menuCompleteTitle.style.display = 'block';
                 }
             });
         });
