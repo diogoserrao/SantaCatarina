@@ -4,7 +4,7 @@
 
 <section class="gallery" id="gallery">
     <div class="container">
-        <h2>Nossa Galeria</h2>
+        <h2>A Nossa Galeria</h2>
         <div class="gallery-grid">
             <div class="gallery-item">
                 <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ambiente do restaurante">

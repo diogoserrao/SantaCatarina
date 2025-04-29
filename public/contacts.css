@@ -39,3 +39,19 @@
     height: 150px;
     resize: vertical;
 }
+
+@media (max-width: 768px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-form input,
+    .contact-form textarea {
+        padding: 15px;
+        font-size: 16px;
+    }
+    
+    .contact-form button {
+        width: 100%;
+    }
+}

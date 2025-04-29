@@ -4,14 +4,14 @@
 
 <section class="contact" id="contact">
     <div class="container">
-        <h2>Entre em Contato</h2>
+        <h2>Contacte-nos</h2>
         <div class="contact-container">
             <div class="contact-info">
                 <h3>Informações</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Rua Gastronomia, 123 - Centro, Cidade</p>
-                <p><i class="fas fa-phone"></i> (11) 1234-5678</p>
-                <p><i class="fas fa-envelope"></i> contato@deliciaearoma.com</p>
-                <p><i class="fas fa-clock"></i> Seg-Sex: 8h-20h | Sáb-Dom: 9h-22h</p>
+                <p><i class="fas fa-map-marker-alt"></i> Estrada dos Canhas, Ponta do Sol</p>
+                <p><i class="fas fa-phone"></i> +351 123 456 789</p>
+                <p><i class="fas fa-envelope"></i> contacto@santacatarina.com</p>
+                <p><i class="fas fa-clock"></i> Seg-Sex: 8h-22h | Dom: 9h-20h | Sáb: Encerrado</p>
 
                 <h3 style="margin-top: 30px;">Redes Sociais</h3>
                 <div class="social-links">
@@ -23,10 +23,10 @@
 
             <div class="contact-form">
                 <form>
-                    <input type="text" placeholder="Seu Nome" required>
-                    <input type="email" placeholder="Seu E-mail" required>
-                    <input type="tel" placeholder="Seu Telefone">
-                    <textarea placeholder="Sua Mensagem" required></textarea>
+                    <input type="text" placeholder="O seu nome" required>
+                    <input type="email" placeholder="O seu e-mail" required>
+                    <input type="tel" placeholder="O seu telefone">
+                    <textarea placeholder="A sua mensagem" required></textarea>
                     <button type="submit" class="btn">Enviar Mensagem</button>
                 </form>
             </div>

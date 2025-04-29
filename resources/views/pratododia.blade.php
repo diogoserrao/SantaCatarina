@@ -6,16 +6,16 @@
     <div class="container">
         <div class="dish-header">
             <h2>PRATO DO DIA</h2>
-            <div class="urgency-badge">  
+            <div class="urgency-badge">
                 <i class="fas fa-fire"></i>
-                <span>HOJE APENAS | RESTAM <span id="remaining-portions">12</span> PORÇÕES</span>
+                <span>HOJE APENAS | RESTAM <span id="remaining-portions">12</span> DOSE(S)</span>
             </div>
         </div>
 
         <!-- Prato disponível -->
         <div class="dish-container status-active" id="available-state">
             <div class="dish-image">
-                <img src="https://images.unsplash.com/photo-1598103442097-8b74394b95c6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Frango Assado no Forno">
+                <img src="https://th.bing.com/th/id/OIP.dIv643iFDSvHo0z0kN0YAwHaFj?w=224&h=180&c=7&r=0&o=5&pid=1.7" alt="Frango Assado no Forno">
                 <div class="dish-badge">
                     <span>Especial</span>
                 </div>
@@ -23,14 +23,14 @@
             <div class="dish-info">
                 <h3>Frango Assado no Forno</h3>
                 <div class="dish-price">
-                    <span class="original-price">10,99 $</span>
-                    <span class="promo-price">5,49 $</span>
+                    <span class="original-price">€ 10,99</span>
+                    <span class="promo-price">€ 5,49</span>
                 </div>
-                <p class="dish-description">Frango inteiro assado lentamente no forno com ervas aromáticas, alho e limão. Acompanha batatas rústicas, legumes da estação e molho especial da casa. Serve até 2 pessoas.</p>
+                <p class="dish-description">Frango inteiro assado lentamente no forno com ervas aromáticas, alho e limão. Acompanha batatas rústicas, legumes da época e molho especial da casa. Serve até 2 pessoas.</p>
                 <div class="dish-details">
                     <div class="detail-item">
                         <i class="fas fa-clock"></i>
-                        <span>Disponível até 20h</span>
+                        <span>Disponível até às 20h</span>
                     </div>
                     <div class="detail-item">
                         <i class="fas fa-calendar-alt"></i>
@@ -45,25 +45,32 @@
 
         <!-- Sold Out (ainda dentro do container!) -->
         <div class="soldout-container status-hidden" id="soldout-state">
-            <div class="soldout-banner">
-                <i class="fas fa-hourglass-end"></i> ESGOTADO POR HOJE
+            <div class="dish-image">
+                <img src="https://th.bing.com/th/id/OIP.97kl_JAqZUu7PSvr2FVH2AHaFj?rs=1&pid=ImgDetMain" alt="Prego no Prato">
+                <div class="dish-badge">Sugestão</div>
             </div>
-            <div class="soldout-content">
-                <div class="soldout-image">
-                    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=700&q=80" alt="Esgotado" style="width:100%; border-radius:10px; margin: 20px 0;">
+            <div class="dish-info">
+                <h3>O Frango Assado esgotou!</h3>
+                <div class="dish-price">
+                    <span class="promo-price">€ 7,90</span>
                 </div>
-
-                <p class="soldout-message">O prato do dia já esgotou, mas não se preocupe!</p>
-                <div class="alternatives">
-                    <h4>Experimente a Especialidade da Casa:</h4>
-                    <p><a href="#especialidade" class="highlight-link">Bacalhau à Brás (R$ 49,90)</a></p>
-
-                    <h4>Ou veja o nosso Menu Completo:</h4>
-                    <a href="#menu" class="btn-see-menu">Ver Menu</a>
+                <p class="dish-description">Mas não se preocupe — hoje temos um delicioso <strong>Prego no Prato</strong> com bife suculento, batatas fritas crocantes, arroz branco e ovo estrelado. Uma opção prática e saborosa!</p>
+                <div class="dish-details">
+                    <div class="detail-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Disponível até às 21h</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span id="alt-dish-date">Hoje</span>
+                    </div>
                 </div>
-
+                <div>
+                    <a href="#menu" class="btn btn-reserve">Ver no Menu</a>
+                </div>
             </div>
         </div>
+
 
     </div> <!-- fecha o .container -->
 </section>
@@ -76,7 +83,7 @@
             month: 'long'
         };
         const today = new Date();
-        const dateString = today.toLocaleDateString('pt-BR', options);
+        const dateString = today.toLocaleDateString('pt-PT', options);
 
         // Capitaliza o dia da semana
         const formattedDate = dateString.charAt(0).toUpperCase() + dateString.slice(1);
@@ -107,7 +114,7 @@
             portions--;
             updatePortions();
             // Aqui você integraria com seu sistema de pedidos real
-            alert(`Pedido confirmado! ${portions} porções restantes.`);
+            alert(`Pedido confirmado! Restam ${portions} dose(s).`);
         }
     });
 

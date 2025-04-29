@@ -70,3 +70,29 @@
     font-weight: 700;
     color: #c7a17a;
 }
+
+
+
+@media (max-width: 768px) {
+    .menu-categories {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+        justify-content: flex-start;
+    }
+    
+    .menu-categories::-webkit-scrollbar {
+        height: 3px;
+    }
+    
+    .menu-categories button {
+        white-space: nowrap;
+        margin: 0 5px;
+        padding: 8px 15px;
+    }
+    
+    .menu-items {
+        grid-template-columns: 1fr;
+    }
+}

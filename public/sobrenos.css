@@ -34,3 +34,14 @@
     height: auto;
     display: block;
 }
+
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .about-image {
+        order: -1;
+    }
+}

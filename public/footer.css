@@ -49,3 +49,14 @@ footer {
     padding-top: 20px;
     font-size: 14px;
 }
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-column {
+        margin-bottom: 20px;
+    }
+}
