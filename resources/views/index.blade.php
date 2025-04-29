@@ -10,6 +10,7 @@
 </head>
 <body>
     @include('header')
+    @include('pratododia')
     @include('sobrenos')
     @include('menu')
     @include('galeria')
