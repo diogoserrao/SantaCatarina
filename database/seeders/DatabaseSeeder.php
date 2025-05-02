@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             MenuSeeder::class,
-            // outros seeders...
+            DailySpecialSeeder::class,
+            //outros seeders
         ]);
 
         User::factory()->create([
