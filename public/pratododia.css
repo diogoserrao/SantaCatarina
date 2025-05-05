@@ -3,285 +3,155 @@
     --brown-dark: #5a3921;
     --brown-darker: #3a2414;
     --gold: #c7a17a;
+    --gold-light: #e8c8a2;
     --red-alert: #e74c3c;
     --bg-light: #fff8f0;
     --white: #ffffff;
     --gray-light: #f8f9fa;
+    --text-dark: #333;
+    --text-medium: #555;
+    --text-light: #777;
 }
 
-/* ===== LAYOUT & CONTAINERS ===== */
-/* Seção principal */
+/* ===== BASE STYLES ===== */
 .dish-of-the-day {
     background-color: var(--bg-light);
-    padding: 80px 0;
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Estilos compartilhados de contêiner */
-.dish-container,
-.soldout-container {
-    background: var(--white);
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-}
-
-.soldout-container {
-    display: flex;
-    gap: 50px;
-    animation: fadeIn 0.5s;
-}
-
-.status-active {
-    display: flex;
-    animation: fadeIn 0.5s;
-    gap: 50px;
-}
-
-.status-hidden {
-    display: none;
-}
-
-.soldout-container.status-hidden {
-    display: none !important;
-}
-
-/* ===== IMAGES ===== */
-/* Compartilhado: contêineres de imagem */
-.dish-image,
-.soldout-image {
+.dish-of-the-day h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    color: var(--brown-dark);
+    margin-bottom: 40px;
     position: relative;
+}
+
+.dish-of-the-day h2:after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, var(--gold), var(--brown-dark));
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+/* Dish Container Styles */
+.daily-special-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.dish-container {
+    background: var(--white);
     border-radius: 10px;
     overflow: hidden;
-    height: 350px;
-    max-width: 100%;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    display: flex;
 }
 
+.dish-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Styles */
 .dish-image {
-    flex: 1;
-    width: 100%;
-    max-width: 500px;
+    position: relative;
+    flex: 0 0 300px;
+    overflow: hidden;
 }
 
-.soldout-image {
-    flex: 1 1 50%;
-}
-
-/* Compartilhado: estilos de imagem */
-.dish-image img,
-.soldout-image img {
+.dish-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    transition: transform 0.5s ease;
 }
 
-/* ===== TEXT & CONTENT ===== */
-/* Informações do prato */
-.dish-info,
-.soldout-info {
+.dish-container:hover .dish-image img {
+    transform: scale(1.03);
+}
+
+.dish-image:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
+    z-index: 1;
+}
+
+/* Info Styles */
+.dish-info {
     flex: 1;
+    padding: 30px;
     display: flex;
     flex-direction: column;
 }
 
-.soldout-info {
-    justify-content: center;
-    padding: 20px;
-    gap: 20px;
-}
-
 .dish-info h3 {
-    font-size: 28px;
+    font-size: 1.8rem;
     color: var(--brown-dark);
     margin-bottom: 15px;
+    font-weight: 600;
 }
 
-.soldout-info h3 {
-    font-size: 28px;
-    color: var(--red-alert);
-    margin: 0;
-}
-
-.dish-description {
-    margin-bottom: 25px;
-    color: #666;
+.dish-description p {
+    color: var(--text-medium);
     line-height: 1.7;
-}
-
-.soldout-message {
-    font-size: 18px;
-    color: var(--brown-dark);
-}
-
-/* Seção de preço */
-.dish-price {
     margin-bottom: 20px;
 }
 
-.original-price {
-    text-decoration: line-through;
-    color: #999;
-    margin-right: 10px;
-    font-size: 18px;
+.dish-price {
+    margin-top: auto;
 }
 
 .promo-price {
-    font-size: 24px;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--gold);
+    display: block;
+    margin-top: 10px;
 }
 
-/* Detalhes e ícones */
-.dish-details {
-    display: flex;
-    gap: 30px;
-    margin-bottom: 30px;
-}
-
-.detail-item {
-    display: flex;
-    align-items: center;
-    color: var(--brown-dark);
-}
-
-.detail-item i {
-    margin-right: 8px;
-    color: var(--gold);
-}
-
-/* ===== COMPONENTS ===== */
-/* Badge e banners */
-.dish-badge {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: var(--gold);
-    color: var(--white);
-    padding: 8px 15px;
-    border-radius: 30px;
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.soldout-container .dish-badge {
-    background-color: var(--red-alert);
-    font-size: 13px;
-    padding: 6px 12px;
-}
-
-.urgency-badge {
-    background: var(--red-alert);
-    color: var(--white);
-    padding: 8px 15px;
-    border-radius: 30px;
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
-    animation: pulse 2s infinite;
-}
-
-.soldout-banner {
-    background: var(--red-alert);
-    color: var(--white);
-    padding: 15px;
-    border-radius: 5px;
-    text-align: center;
-    font-weight: bold;
-    margin: 20px 0;
-    animation: pulseAlert 2s infinite;
-}
-
-/* Botões compartilhados */
-.btn-reserve,
-.btn-see-menu {
-    display: inline-block;
-    color: var(--white);
-    font-weight: bold;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    padding: 12px 30px;
-    border-radius: 8px;
-    background-color: var(--brown-dark);
-}
-
-.btn-reserve:hover,
-.btn-see-menu:hover {
-    background-color: var(--brown-darker);
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes pulseAlert {
-    0% {
-        opacity: 0.8;
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.02);
-    }
-    100% {
-        opacity: 0.8;
-    }
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-/* ===== RESPONSIVE ===== */
+/* Responsive Design */
 @media (max-width: 768px) {
     .dish-container {
         flex-direction: column;
     }
-
+    
     .dish-image {
+        flex: 0 0 250px;
         width: 100%;
-        min-height: 250px;
-    }
-
-    .dish-details {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .soldout-container {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .soldout-info h3 {
-        margin-top: 20px;
-    }
-
-    .soldout-info {
-        align-items: center;
     }
     
-    .urgency-badge {
-        position: absolute;
-        top: -15px;
-        right: 10px;
-        z-index: 5;
-        box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+    .dish-info {
+        padding: 25px;
     }
+    
+    .dish-info h3 {
+        font-size: 1.5rem;
+    }
+    
+    .promo-price {
+        font-size: 1.5rem;
+    }
+}
 
-    .dish-header h2 {
-        margin-bottom: 30px;
+@media (max-width: 480px) {
+    .dish-of-the-day h2 {
+        font-size: 1.8rem;
+    }
+    
+    .dish-info {
+        padding: 20px;
     }
 }

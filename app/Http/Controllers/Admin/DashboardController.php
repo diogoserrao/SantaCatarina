@@ -8,7 +8,7 @@ use App\Models\MenuItem;
 use App\Models\DailySpecial;
 use Illuminate\View\View;
 
-class AdminController extends Controller
+class DashboardController extends Controller
 {
     public function dashboard(): View
     {

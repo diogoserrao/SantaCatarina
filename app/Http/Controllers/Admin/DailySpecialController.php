@@ -26,24 +26,16 @@ class DailySpecialController extends Controller
     // Salvar novo prato do dia
     public function store(Request $request): RedirectResponse
     {
+        // Validação simplificada
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'original_price' => 'required|numeric|min:0',
-            'promo_price' => 'required|numeric|min:0|lte:original_price',
+            'price' => 'required|numeric|min:0',
             'image_url' => 'required|url',
-            'badge_text' => 'nullable|string|max:50',
-            'portions_available' => 'required|integer|min:1',
-            'available_until' => 'required',
             'is_active' => 'boolean',
-            'alternative_name' => 'required|string|max:255',
-            'alternative_description' => 'required|string',
-            'alternative_price' => 'required|numeric|min:0',
-            'alternative_image_url' => 'required|url',
-            'alternative_available_until' => 'required',
         ]);
 
-        // Desativar pratos anteriores se este for ativo
+        // Desativar outros pratos se este for ativo
         if ($request->boolean('is_active')) {
             DailySpecial::where('is_active', true)->update(['is_active' => false]);
         }
@@ -55,9 +47,22 @@ class DailySpecialController extends Controller
     }
 
     // Exibir um prato específico
-    public function show(DailySpecial $dailySpecial): View
+    public function show(): View
     {
-        return view('admin.daily-specials.show', compact('dailySpecial'));
+        $dailySpecial = DailySpecial::getActive();
+
+        // Se não há prato ativo, tentamos pegar um prato qualquer que esteja no sistema
+        // e setamos como inativo para que o sistema mostre a alternativa
+        if (!$dailySpecial) {
+            $dailySpecial = DailySpecial::latest()->first();
+
+            if ($dailySpecial) {
+                $dailySpecial->is_active = false;
+            }
+        }
+
+        // Removida verificação de alternativa
+        return view('pratododia', compact('dailySpecial'));
     }
 
     // Formulário de edição
@@ -69,26 +74,22 @@ class DailySpecialController extends Controller
     // Atualizar prato
     public function update(Request $request, DailySpecial $dailySpecial): RedirectResponse
     {
+        // Validação simplificada
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'original_price' => 'required|numeric|min:0',
-            'promo_price' => 'required|numeric|min:0|lte:original_price',
+            'price' => 'required|numeric|min:0',
             'image_url' => 'required|url',
-            'badge_text' => 'nullable|string|max:50',
-            'portions_available' => 'required|integer|min:0',
-            'available_until' => 'required',
-            'is_active' => 'boolean',
-            'alternative_name' => 'required|string|max:255',
-            'alternative_description' => 'required|string',
-            'alternative_price' => 'required|numeric|min:0',
-            'alternative_image_url' => 'required|url',
-            'alternative_available_until' => 'required',
         ]);
 
-        // Desativar outros pratos se este for ativo
-        if ($request->boolean('is_active') && !$dailySpecial->is_active) {
-            DailySpecial::where('is_active', true)->update(['is_active' => false]);
+        // Definir explicitamente o status ativo/inativo
+        $validated['is_active'] = $request->has('is_active');
+
+        // Se este prato estiver sendo ativado, desative todos os outros
+        if ($validated['is_active'] && !$dailySpecial->is_active) {
+            DailySpecial::where('id', '!=', $dailySpecial->id)
+                ->where('is_active', true)
+                ->update(['is_active' => false]);
         }
 
         $dailySpecial->update($validated);
@@ -96,7 +97,7 @@ class DailySpecialController extends Controller
         return redirect()->route('admin.daily-specials.index')
             ->with('success', 'Prato do dia atualizado com sucesso!');
     }
-
+    
     // Excluir prato
     public function destroy(DailySpecial $dailySpecial): RedirectResponse
     {
@@ -110,7 +111,7 @@ class DailySpecialController extends Controller
     public function activate(DailySpecial $dailySpecial): RedirectResponse
     {
         DailySpecial::where('is_active', true)->update(['is_active' => false]);
-        
+
         $dailySpecial->is_active = true;
         $dailySpecial->save();
 

@@ -43,13 +43,15 @@
                 <h5 class="card-title"><i class="fas fa-star me-2"></i>Prato do Dia</h5>
                 <h2>{{ $activeDailySpecial ? 'Ativo' : 'Não Definido' }}</h2>
                 <p class="card-text">
-                    @if($activeDailySpecial)
-                        <strong>{{ $activeDailySpecial->name }}</strong><br>
-                        {{ $activeDailySpecial->hasAvailablePortions() ? $activeDailySpecial->portions_available . ' porções' : 'Esgotado' }}
-                    @else
-                        Não há prato do dia definido.
-                    @endif
-                </p>
+    @if($activeDailySpecial)
+        <strong>{{ $activeDailySpecial->name }}</strong><br>
+        <span class="badge {{ $activeDailySpecial->is_active ? 'bg-success' : 'bg-danger' }}">
+            {{ $activeDailySpecial->is_active ? 'Ativo' : 'Inativo' }}
+        </span>
+    @else
+        Não há prato do dia definido.
+    @endif
+</p>
                 <a href="{{ route('admin.daily-specials.index') }}" class="btn btn-sm btn-warning">Gerenciar</a>
             </div>
         </div>
@@ -63,34 +65,34 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Prato do Dia Atual</h5>
                 @if($activeDailySpecial)
-                    <a href="{{ route('admin.daily-specials.edit', $activeDailySpecial) }}" class="btn btn-sm btn-outline-primary">
-                        <i class="fas fa-edit"></i> Editar
-                    </a>
+                <a href="{{ route('admin.daily-specials.edit', $activeDailySpecial) }}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
                 @endif
             </div>
             <div class="card-body">
                 @if($activeDailySpecial)
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img src="{{ $activeDailySpecial->image_url }}" alt="{{ $activeDailySpecial->name }}" class="img-fluid rounded">
-                        </div>
-                        <div class="col-md-8">
-                            <h5>{{ $activeDailySpecial->name }}</h5>
-                            <p class="text-muted">{{ Str::limit($activeDailySpecial->description, 100) }}</p>
-                            <div class="d-flex justify-content-between">
-                                <span class="badge bg-primary">€{{ number_format($activeDailySpecial->promo_price, 2, ',', ' ') }}</span>
-                                <span class="badge {{ $activeDailySpecial->hasAvailablePortions() ? 'bg-success' : 'bg-danger' }}">
-                                    {{ $activeDailySpecial->hasAvailablePortions() ? $activeDailySpecial->portions_available . ' porções' : 'Esgotado' }}
-                                </span>
-                            </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{ $activeDailySpecial->image_url }}" alt="{{ $activeDailySpecial->name }}" class="img-fluid rounded">
+                    </div>
+                    <div class="col-md-8">
+                        <h5>{{ $activeDailySpecial->name }}</h5>
+                        <p class="text-muted">{{ Str::limit($activeDailySpecial->description, 100) }}</p>
+                        <div class="d-flex justify-content-between">
+                            <span class="badge bg-primary">€{{ number_format($activeDailySpecial->promo_price, 2, ',', ' ') }}</span>
+                            <span class="badge {{ $activeDailySpecial->is_active ? 'bg-success' : 'bg-danger' }}">
+                                {{ $activeDailySpecial->is_active ? 'Ativo' : 'Inativo' }}
+                            </span>
                         </div>
                     </div>
+                </div>
                 @else
-                    <div class="text-center py-4">
-                        <i class="fas fa-exclamation-circle fa-3x text-muted mb-3"></i>
-                        <p>Não há prato do dia ativo no momento.</p>
-                        <a href="{{ route('admin.daily-specials.create') }}" class="btn btn-primary">Criar Prato do Dia</a>
-                    </div>
+                <div class="text-center py-4">
+                    <i class="fas fa-exclamation-circle fa-3x text-muted mb-3"></i>
+                    <p>Não há prato do dia ativo no momento.</p>
+                    <a href="{{ route('admin.daily-specials.create') }}" class="btn btn-primary">Criar Prato do Dia</a>
+                </div>
                 @endif
             </div>
         </div>
@@ -107,37 +109,37 @@
             </div>
             <div class="card-body">
                 @if($featuredItems->count() > 0)
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Categoria</th>
-                                    <th>Preço</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($featuredItems as $item)
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            @if($item->image_url)
-                                                <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="me-2" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
-                                            @endif
-                                            {{ $item->name }}
-                                        </div>
-                                    </td>
-                                    <td>{{ $item->category->name }}</td>
-                                    <td>€{{ number_format($item->price, 2, ',', ' ') }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Categoria</th>
+                                <th>Preço</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($featuredItems as $item)
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        @if($item->image_url)
+                                        <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="me-2" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
+                                        @endif
+                                        {{ $item->name }}
+                                    </div>
+                                </td>
+                                <td>{{ $item->category->name }}</td>
+                                <td>€{{ number_format($item->price, 2, ',', ' ') }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 @else
-                    <div class="text-center py-4">
-                        <p>Não há itens marcados como destaque.</p>
-                    </div>
+                <div class="text-center py-4">
+                    <p>Não há itens marcados como destaque.</p>
+                </div>
                 @endif
             </div>
         </div>
