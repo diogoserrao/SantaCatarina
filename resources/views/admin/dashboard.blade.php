@@ -80,7 +80,7 @@
                         <h5>{{ $activeDailySpecial->name }}</h5>
                         <p class="text-muted">{{ Str::limit($activeDailySpecial->description, 100) }}</p>
                         <div class="d-flex justify-content-between">
-                            <span class="badge bg-primary">€{{ number_format($activeDailySpecial->promo_price, 2, ',', ' ') }}</span>
+                            <span class="badge bg-primary">€{{ number_format($activeDailySpecial->price, 2, ',', ' ') }}</span>
                             <span class="badge {{ $activeDailySpecial->is_active ? 'bg-success' : 'bg-danger' }}">
                                 {{ $activeDailySpecial->is_active ? 'Ativo' : 'Inativo' }}
                             </span>
