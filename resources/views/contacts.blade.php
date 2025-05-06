@@ -23,11 +23,21 @@
 
             <div class="contact-form">
                 <form>
-                    <input type="text" placeholder="O seu nome" required>
-                    <input type="email" placeholder="O seu e-mail" required>
-                    <input type="tel" placeholder="O seu telefone">
-                    <textarea placeholder="A sua mensagem" required></textarea>
-                    <button type="submit" class="btn">Enviar Mensagem</button>
+                <div class="form-group">
+                        <input type="text" placeholder="O seu nome" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="O seu e-mail" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="O seu telefone">
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="A sua mensagem" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Enviar Mensagem</button>
+                    </div>
                 </form>
             </div>
         </div>
