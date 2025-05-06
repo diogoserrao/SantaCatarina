@@ -17,13 +17,13 @@
 .dish-of-the-day {
     background-color: var(--bg-light);
     padding: 60px 20px;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
 }
 
 .dish-of-the-day h2 {
-    text-align: center;
     font-size: 2.2rem;
     color: var(--brown-dark);
     margin-bottom: 40px;
@@ -42,22 +42,25 @@
 
 /* Dish Container Styles */
 .daily-special-container {
-    max-width: 900px;
+    max-width: 1000px; 
     margin: 0 auto;
+    padding: 0 30px; 
 }
 
 .dish-container {
     background: var(--white);
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     display: flex;
+    margin-bottom: 40px;
+    padding: 10px;
 }
 
 .dish-container:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
 }
 
 /* Image Styles */
@@ -75,7 +78,7 @@
 }
 
 .dish-container:hover .dish-image img {
-    transform: scale(1.03);
+    transform: scale(1.05);
 }
 
 .dish-image:before {
@@ -95,6 +98,7 @@
     padding: 30px;
     display: flex;
     flex-direction: column;
+    text-align: left;
 }
 
 .dish-info h3 {
@@ -122,25 +126,45 @@
     margin-top: 10px;
 }
 
+/* See More Button */
+.see-more {
+    margin-top: 20px;
+}
+
+.see-more-button {
+    display: inline-block;
+    background-color: var(--brown-dark);
+    color: var(--white);
+    padding: 12px 28px;
+    border-radius: 25px;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.see-more-button:hover {
+    background-color: var(--brown-darker);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .dish-container {
         flex-direction: column;
     }
-    
+
     .dish-image {
         flex: 0 0 250px;
         width: 100%;
     }
-    
+
     .dish-info {
         padding: 25px;
     }
-    
+
     .dish-info h3 {
         font-size: 1.5rem;
     }
-    
+
     .promo-price {
         font-size: 1.5rem;
     }
@@ -150,8 +174,12 @@
     .dish-of-the-day h2 {
         font-size: 1.8rem;
     }
-    
+
     .dish-info {
         padding: 20px;
+    }
+
+    .see-more-button {
+        width: 100%;
     }
 }
