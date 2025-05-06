@@ -2,6 +2,11 @@
 
 
 <style>
+    :root {
+        --primary: #007bff;
+        --light-bg: #f8f9fa;
+    }
+
     .card {
         border: none;
         box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -20,10 +25,13 @@
     }
 
     .page-header {
-        background-color: #f8f9fa;
-        padding: 1.5rem;
-        border-radius: 0.5rem;
-        margin-bottom: 1.5rem;
+        padding: 1rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .btn-toolbar {
+        gap: 0.5rem;
     }
 
     .table th {
@@ -165,14 +173,87 @@
         pointer-events: none;
     }
 
-    @keyframes fadeIn {
-        from {
-            background-color: rgba(0, 123, 255, 0.1);
+    @media (max-width: 767.98px) {
+        .filter-controls {
+            flex-direction: column;
+            width: 100%;
         }
+        
+        .filter-controls .col-md-4,
+        .filter-controls .col-md-3,
+        .filter-controls .col-md-2 {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        /* Botão de filtro ocupando toda largura no mobile */
+        .filter-button {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+    }
+    
+    /* Melhorias para tabelas em dispositivos móveis */
+    @media (max-width: 767.98px) {
+        /* Transformar tabela em cards em telas pequenas */
+        .mobile-cards thead {
+            display: none;
+        }
+        
+        .mobile-cards tbody tr {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+        }
+        
+        .mobile-cards td {
+            display: flex;
+            padding: 0.5rem 0;
+            border: none !important;
+            align-items: center;
+            justify-content: space-between;
+            text-align: right;
+        }
+        
+        .mobile-cards td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            text-align: left;
+            flex: 1;
+            padding-right: 1rem;
+        }
+        
+        /* Imagem em tamanho melhor para mobile */
+        .mobile-cards .item-image {
+            width: 60px !important;
+            height: 60px !important;
+        }
+        
+        /* Botões de ação em layout móvel */
+        .mobile-cards .action-buttons {
+            justify-content: center !important;
+            margin-top: 0.5rem;
+        }
+        
+        .mobile-cards .action-buttons .btn {
+            width: 44px;
+            height: 44px;
+            margin: 0 0.25rem;
+        }
+        
+        .mobile-cards .action-buttons .btn i {
+            font-size: 16px;
+        }
+    }
 
-        to {
-            background-color: transparent;
-        }
+    /* Melhorias na paginação para móvel */
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.25rem;
     }
 </style>
 
@@ -277,7 +358,7 @@
             </a>
         </div>
         @endif
-        
+
     </div>
 </div>
 

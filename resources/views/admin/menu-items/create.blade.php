@@ -61,11 +61,19 @@
                             </select>
                         </div>
                         
+                        <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="image_url" class="form-label">URL da Imagem</label>
-                            <input type="url" class="form-control" id="image_url" name="image_url" value="{{ old('image_url') }}">
-                            <small class="form-text text-muted">Obrigatório apenas para itens em destaque.</small>
+                            <label for="image_url" class="form-label">URL da Imagem <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="url" class="form-control" id="image_url" name="image_url" value="{{ old('image_url') }}" required>
+                                <button type="button" class="btn btn-secondary" id="openCameraBtn">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">Cole uma URL ou capture uma imagem com a câmera</div>
                         </div>
+
+                    </div>
                     </div>
                 </div>
             </div>

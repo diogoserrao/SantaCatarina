@@ -31,11 +31,11 @@
                     <tr>
                         <td>
                             @if($special->image_url)
-                                <img src="{{ $special->image_url }}" alt="{{ $special->name }}" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                            <img src="{{ $special->image_url }}" alt="{{ $special->name }}" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
                             @else
-                                <div class="bg-light border rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-image text-muted"></i>
-                                </div>
+                            <div class="bg-light border rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-image text-muted"></i>
+                            </div>
                             @endif
                         </td>
                         <td>{{ $special->name }}</td>
@@ -46,28 +46,27 @@
                             </span>
                         </td>
                         <td>
-                            <div class="btn-group" role="group">
-                                <a href="{{ route('admin.daily-specials.show', $special) }}" class="btn btn-sm btn-info" title="Ver">
-                                    <i class="fas fa-eye"></i>
-                                </a>
+                            <div class="d-flex flex-wrap justify-content-center gap-2">
                                 <a href="{{ route('admin.daily-specials.edit', $special) }}" class="btn btn-sm btn-primary" title="Editar">
-                                    <i class="fas fa-edit"></i>
+                                    <i class="fas fa-edit d-md-none"></i>
+                                    <span class="d-none d-md-inline">Editar</span>
                                 </a>
 
-                                @if(!$special->is_active)
-                                <form action="{{ route('admin.daily-specials.activate', $special) }}" method="POST" class="d-inline">
+                                <form action="{{ route('admin.daily-specials.toggle-status', $special) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-sm btn-success" title="Ativar">
-                                        <i class="fas fa-check"></i>
+                                    <button type="submit" class="btn btn-sm {{ $special->is_active ? 'btn-secondary' : 'btn-success' }}">
+                                        <i class="fas {{ $special->is_active ? 'fa-toggle-off' : 'fa-toggle-on' }} d-md-none"></i>
+                                        <span class="d-none d-md-inline">{{ $special->is_active ? 'Desativar' : 'Ativar' }}</span>
                                     </button>
                                 </form>
-                                @endif
 
-                                <form action="{{ route('admin.daily-specials.destroy', $special) }}" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir este prato do dia?')">
+                                <form action="{{ route('admin.daily-specials.destroy', $special) }}" method="POST"
+                                    onsubmit="return confirm('Tem certeza que deseja excluir este prato do dia?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" title="Excluir">
-                                        <i class="fas fa-trash"></i>
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash d-md-none"></i>
+                                        <span class="d-none d-md-inline">Excluir</span>
                                     </button>
                                 </form>
                             </div>

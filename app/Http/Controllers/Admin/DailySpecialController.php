@@ -97,7 +97,7 @@ class DailySpecialController extends Controller
         return redirect()->route('admin.daily-specials.index')
             ->with('success', 'Prato do dia atualizado com sucesso!');
     }
-    
+
     // Excluir prato
     public function destroy(DailySpecial $dailySpecial): RedirectResponse
     {
@@ -117,5 +117,24 @@ class DailySpecialController extends Controller
 
         return redirect()->route('admin.daily-specials.index')
             ->with('success', 'Prato do dia ativado com sucesso!');
+    }
+
+    public function toggleStatus(DailySpecial $dailySpecial): RedirectResponse
+    {
+        if (!$dailySpecial->is_active) {
+            // Se estamos ativando, desativamos todos os outros primeiro
+            DailySpecial::where('is_active', true)->update(['is_active' => false]);
+            $dailySpecial->is_active = true;
+            $message = 'Prato do dia ativado com sucesso!';
+        } else {
+            // Se estamos desativando
+            $dailySpecial->is_active = false;
+            $message = 'Prato do dia desativado com sucesso!';
+        }
+
+        $dailySpecial->save();
+
+        return redirect()->route('admin.daily-specials.index')
+            ->with('success', $message);
     }
 }

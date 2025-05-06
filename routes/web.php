@@ -44,13 +44,15 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('daily-specials', DailySpecialController::class);
     Route::post('daily-specials/{dailySpecial}/activate', [DailySpecialController::class, 'activate'])
         ->name('daily-specials.activate');
+    Route::post('daily-specials/{dailySpecial}/toggle-status', [DailySpecialController::class, 'toggleStatus'])
+        ->name('daily-specials.toggle-status');
 
     // Itens do Menu
     Route::resource('menu-items', MenuItemController::class);
     Route::post('menu-items/{menuItem}/toggle-featured', [MenuItemController::class, 'toggleFeatured'])
         ->name('menu-items.toggle-featured');
 
-            
+
     // Categorias
     Route::resource('categories', CategoryController::class);
 
