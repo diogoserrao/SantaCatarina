@@ -8,44 +8,44 @@
         <div class="menu-categories">
             <button class="active" data-category="all">Destaques</button>
             @foreach($categories as $category)
-                <button data-category="{{ $category->slug }}">{{ $category->name }}</button>
+            <button data-category="{{ $category->slug }}">{{ $category->name }}</button>
             @endforeach
         </div>
 
         <h3 class="section-subtitle featured-title">Destaques</h3>
         <div class="featured-items">
             @foreach($featuredItems as $item)
-                <div class="menu-item" data-category="{{ $item->category->slug }}">
-                    @if($item->image_url)
-                        <img src="{{ $item->image_url }}" alt="{{ $item->name }}">
-                    @endif
-                    <div class="menu-item-info">
-                        <h3>{{ $item->name }}</h3>
-                        <p>{{ $item->description }}</p>
-                        <div class="price">€ {{ number_format($item->price, 2, ',', ' ') }}</div>
-                    </div>
+            <div class="menu-item" data-category="{{ $item->category->slug }}">
+                @if($item->image_url)
+                <img src="{{ $item->image_url }}" alt="{{ $item->name }}">
+                @endif
+                <div class="menu-item-info">
+                    <h3>{{ $item->name }}</h3>
+                    <p>{{ $item->description }}</p>
+                    <div class="price">€ {{ number_format($item->price, 2, ',', ' ') }}</div>
                 </div>
+            </div>
             @endforeach
         </div>
 
         <h3 class="section-subtitle menu-complete-title">Menu Completo</h3>
         <div class="menu-list">
             @foreach($categories as $category)
-                <div class="menu-section" data-category="{{ $category->slug }}">
-                    <h4>{{ $category->name }}</h4>
-                    <ul class="menu-items-list">
-                        @foreach($category->menuItems->where('featured', false)->sortBy('display_order') as $item)
-                            <li>
-                                <div class="item-name">{{ $item->name }}</div>
-                                <div class="item-dots"></div>
-                                <div class="item-price">€ {{ number_format($item->price, 2, ',', ' ') }}</div>
-                                @if($item->description)
-                                    <div class="item-description">{{ $item->description }}</div>
-                                @endif
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="menu-section" data-category="{{ $category->slug }}">
+                <h4>{{ $category->name }}</h4>
+                <ul class="menu-items-list">
+                    @foreach($category->menuItems->sortBy('display_order') as $item)
+                    <li>
+                        <div class="item-name">{{ $item->name }}</div>
+                        <div class="item-dots"></div>
+                        <div class="item-price">€ {{ number_format($item->price, 2, ',', ' ') }}</div>
+                        @if($item->description)
+                        <div class="item-description">{{ $item->description }}</div>
+                        @endif
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
             @endforeach
         </div>
     </div>

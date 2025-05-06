@@ -9,18 +9,18 @@
 </div>
 
 @if($errors->any())
-    <div class="alert alert-danger">
-        <ul class="mb-0">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+<div class="alert alert-danger">
+    <ul class="mb-0">
+        @foreach($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
 @endif
 
 <form action="{{ route('admin.menu-items.store') }}" method="POST">
     @csrf
-    
+
     <div class="row">
         <div class="col-md-8">
             <div class="card mb-4">
@@ -31,7 +31,7 @@
                             <label for="name" class="form-label">Nome <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
                         </div>
-                        
+
                         <div class="col-md-4">
                             <label for="price" class="form-label">Preço <span class="text-danger">*</span></label>
                             <div class="input-group">
@@ -40,45 +40,45 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="description" class="form-label">Descrição</label>
                             <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
                         </div>
                     </div>
-                    
+
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="category_id" class="form-label">Categoria <span class="text-danger">*</span></label>
                             <select class="form-select" id="category_id" name="category_id" required>
                                 <option value="">Selecione uma categoria</option>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
+                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
-                        
-                        <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="image_url" class="form-label">URL da Imagem <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <input type="url" class="form-control" id="image_url" name="image_url" value="{{ old('image_url') }}" required>
-                                <button type="button" class="btn btn-secondary" id="openCameraBtn">
-                                    <i class="fas fa-camera"></i>
-                                </button>
-                            </div>
-                            <div class="form-text">Cole uma URL ou capture uma imagem com a câmera</div>
-                        </div>
 
-                    </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="image_url" class="form-label">URL da Imagem <span class="text-danger feature-required d-none">*</span></label>
+                                <div class="input-group">
+                                    <input type="url" class="form-control" id="image_url" name="image_url" value="{{ old('image_url') }}">
+                                    <button type="button" class="btn btn-secondary" id="openCameraBtn">
+                                        <i class="fas fa-camera"></i>
+                                    </button>
+                                </div>
+                                <div class="form-text">Cole uma URL ou capture uma imagem com a câmera</div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-header">Configurações</div>
@@ -87,15 +87,15 @@
                         <input class="form-check-input" type="checkbox" id="featured" name="featured" value="1" {{ old('featured') ? 'checked' : '' }}>
                         <label class="form-check-label" for="featured">Mostrar em Destaques</label>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="display_order" class="form-label">Ordem de Exibição</label>
                         <input type="number" class="form-control" id="display_order" name="display_order" min="0" value="{{ old('display_order', 0) }}">
                         <small class="form-text text-muted">Números menores aparecem primeiro.</small>
                     </div>
-                    
+
                     <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-1"></i> Itens marcados como destaque precisam ter uma imagem.
+                        <i class="fas fa-info-circle me-1"></i> Itens marcados como destaque <strong>precisam obrigatoriamente</strong> ter uma imagem. Para itens normais, a imagem é opcional.
                     </div>
                 </div>
                 <div class="card-footer">
@@ -107,4 +107,31 @@
         </div>
     </div>
 </form>
+@endsection
+
+@section('scripts')
+<script>
+    // Tornar campo de imagem obrigatório apenas quando em destaque
+    document.addEventListener('DOMContentLoaded', function() {
+        const featuredCheckbox = document.getElementById('featured');
+        const imageUrlInput = document.getElementById('image_url');
+        const featureRequired = document.querySelector('.feature-required');
+
+        function updateImageRequirement() {
+            if (featuredCheckbox.checked) {
+                imageUrlInput.setAttribute('required', true);
+                featureRequired.classList.remove('d-none');
+            } else {
+                imageUrlInput.removeAttribute('required');
+                featureRequired.classList.add('d-none');
+            }
+        }
+
+        // Executar na inicialização
+        updateImageRequirement();
+
+        // Executar quando o checkbox for alterado
+        featuredCheckbox.addEventListener('change', updateImageRequirement);
+    });
+</script>
 @endsection

@@ -3,11 +3,11 @@
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Gerenciar Categorias</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="d-flex gap-2"> <!-- Substituído btn-toolbar por d-flex com gap-2 -->
         <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary">
             <i class="fas fa-arrow-left me-1"></i> Voltar
         </a>
-        <a href="{{ route('admin.categories.create') }}" class="btn btn-sm btn-primary">
+        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary"> <!-- Removido btn-sm para consistência -->
             <i class="fas fa-plus me-1"></i> Nova Categoria
         </a>
     </div>
@@ -34,19 +34,25 @@
                             <span class="badge bg-info">{{ $category->menu_items_count }} itens</span>
                         </td>
                         <td>
-                            <div class="btn-group" role="group">
-                                <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-sm btn-primary">
+                            <div class="d-flex gap-2"> <!-- Substituindo btn-group por d-flex com gap -->
+                                <a href="{{ route('admin.categories.edit', $category) }}"
+                                    class="btn btn-sm btn-primary"
+                                    title="Editar categoria">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="d-inline"
+
+                                <form action="{{ route('admin.categories.destroy', $category) }}"
+                                    method="POST"
                                     onsubmit="return confirm('Tem certeza que deseja excluir esta categoria? Todos os itens relacionados serão desassociados.')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" {{ $category->menu_items_count > 0 ? 'disabled' : '' }}>
+                                    <button type="submit"
+                                        class="btn btn-sm btn-danger"
+                                        {{ $category->menu_items_count > 0 ? 'disabled' : '' }}
+                                        title="{{ $category->menu_items_count > 0 ? 'Categoria em uso' : 'Excluir categoria' }}">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-                            </div>
                         </td>
                     </tr>
                     @empty
