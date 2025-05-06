@@ -161,4 +161,23 @@
     .featured-items {
         grid-template-columns: 1fr;
     }
+
+    .menu-categories {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        justify-items: center;
+        margin-bottom: 30px;
+    }
+
+    .menu-categories button {
+        width: 100%;
+        max-width: 140px;
+        text-align: center;
+        font-size: 14px;
+        padding: 10px 15px;
+        border-radius: 20px;
+        white-space: normal;
+    }
+
 }
