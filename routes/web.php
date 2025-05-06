@@ -50,6 +50,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('menu-items/{menuItem}/toggle-featured', [MenuItemController::class, 'toggleFeatured'])
         ->name('menu-items.toggle-featured');
 
+            
     // Categorias
     Route::resource('categories', CategoryController::class);
 

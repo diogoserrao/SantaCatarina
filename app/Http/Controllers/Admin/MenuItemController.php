@@ -14,24 +14,37 @@ class MenuItemController extends Controller
     // Listar todos os itens do menu
     public function index(Request $request): View
     {
-        $query = MenuItem::with('category');
-        
-        // Filtragem
-        if ($request->has('category')) {
+        // Iniciar a query base
+        $query = MenuItem::query();
+
+        // Aplicar filtro de busca por nome (com agrupamento)
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('description', 'LIKE', '%' . $request->search . '%');
+            });
+        }
+
+        // Aplicar filtro de categoria
+        if ($request->filled('category')) {
             $query->where('category_id', $request->category);
         }
-        
-        if ($request->has('featured')) {
-            $query->where('featured', $request->featured == 1);
+
+        // Aplicar filtro de destaque
+        if ($request->filled('featured')) {
+            $query->where('featured', $request->featured);
         }
-        
-        if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
-        
-        $menuItems = $query->orderBy('category_id')->orderBy('display_order')->paginate(15);
-        $categories = Category::all();
-        
+
+        // Ordenação padrão
+        $query->orderBy('display_order')
+            ->orderBy('name');
+
+        // Paginar resultados e manter parâmetros de query na URL
+        $menuItems = $query->paginate(15)->withQueryString();
+
+        // Obter categorias para o dropdown
+        $categories = Category::orderBy('name')->get();
+
         return view('admin.menu-items.index', compact('menuItems', 'categories'));
     }
 
