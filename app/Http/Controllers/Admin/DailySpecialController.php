@@ -26,22 +26,53 @@ class DailySpecialController extends Controller
     // Salvar novo prato do dia
     public function store(Request $request): RedirectResponse
     {
-        // Validação simplificada
+        // Validação atualizada para aceitar upload de imagem em vez de URL
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'image_url' => 'required|url',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB limite
             'is_active' => 'boolean',
         ]);
-
+    
+        // Remover 'image' da validação para não interferir com a criação dos dados
+        $data = [
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'price' => $validated['price'],
+            'is_active' => $request->has('is_active'),
+        ];
+    
+        // Processar upload de imagem
+        if ($request->hasFile('image')) {
+            // Obter o arquivo enviado
+            $file = $request->file('image');
+            
+            // Gerar um nome único para o arquivo
+            $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            
+            // Definir o caminho de destino diretamente na pasta public/storage
+            $destinationPath = public_path('storage/uploads/daily-specials');
+            
+            // Criar diretório se não existir
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            // Mover o arquivo para o diretório de destino
+            $file->move($destinationPath, $fileName);
+            
+            // Adicionar o caminho relativo ao array de dados
+            $data['image_url'] = '/storage/uploads/daily-specials/' . $fileName;
+        }
+    
         // Desativar outros pratos se este for ativo
-        if ($request->boolean('is_active')) {
+        if ($data['is_active']) {
             DailySpecial::where('is_active', true)->update(['is_active' => false]);
         }
-
-        DailySpecial::create($validated);
-
+    
+        DailySpecial::create($data);
+    
         return redirect()->route('admin.daily-specials.index')
             ->with('success', 'Prato do dia criado com sucesso!');
     }
@@ -71,32 +102,71 @@ class DailySpecialController extends Controller
         return view('admin.daily-specials.edit', compact('dailySpecial'));
     }
 
+
     // Atualizar prato
     public function update(Request $request, DailySpecial $dailySpecial): RedirectResponse
     {
-        // Validação simplificada
+        // Validação atualizada para aceitar upload de imagem em vez de URL
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'image_url' => 'required|url',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB limite
         ]);
 
-        // Definir explicitamente o status ativo/inativo
-        $validated['is_active'] = $request->has('is_active');
+        // Remover 'image' da validação para não interferir com a criação dos dados
+        $data = [
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'price' => $validated['price'],
+            'is_active' => $request->has('is_active'),
+        ];
+
+        // Se houver upload de nova imagem
+        if ($request->hasFile('image')) {
+            // Obter o arquivo enviado
+            $file = $request->file('image');
+
+            // Gerar um nome único para o arquivo
+            $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            // Definir o caminho de destino diretamente na pasta public/storage
+            $destinationPath = public_path('storage/uploads/daily-specials');
+
+            // Criar diretório se não existir
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            // Mover o arquivo para o diretório de destino
+            $file->move($destinationPath, $fileName);
+
+            // Salvar o caminho relativo na base de dados
+            $data['image_url'] = '/storage/uploads/daily-specials/' . $fileName;
+
+            // Se houver uma imagem antiga, excluí-la
+            if ($dailySpecial->image_url) {
+                $oldImagePath = public_path(substr($dailySpecial->image_url, 1)); // Remover a barra inicial
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+        }
 
         // Se este prato estiver sendo ativado, desative todos os outros
-        if ($validated['is_active'] && !$dailySpecial->is_active) {
+        if ($data['is_active'] && !$dailySpecial->is_active) {
             DailySpecial::where('id', '!=', $dailySpecial->id)
                 ->where('is_active', true)
                 ->update(['is_active' => false]);
         }
 
-        $dailySpecial->update($validated);
+        $dailySpecial->update($data);
 
         return redirect()->route('admin.daily-specials.index')
             ->with('success', 'Prato do dia atualizado com sucesso!');
     }
+
+
 
     // Excluir prato
     public function destroy(DailySpecial $dailySpecial): RedirectResponse

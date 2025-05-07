@@ -16,9 +16,9 @@
 /* ===== BASE STYLES ===== */
 .dish-of-the-day {
     background-color: var(--bg-light);
-    padding: 60px 20px;
-    max-width: 1300px;
-    margin: 0 auto;
+    padding: 60px 0;
+    width: 100%;
+    margin: 0 ;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
 }

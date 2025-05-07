@@ -18,7 +18,7 @@
 </div>
 @endif
 
-<form action="{{ route('admin.daily-specials.update', $dailySpecial) }}" method="POST">
+<form action="{{ route('admin.daily-specials.update', $dailySpecial) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -53,40 +53,20 @@
 
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            <label for="image_url" class="form-label">URL da Imagem <span class="text-danger">*</span></label>
-                            <input type="url" class="form-control" id="image_url" name="image_url" value="{{ old('image_url', $dailySpecial->image_url) }}" required>
+                            <label for="image" class="form-label">Imagem <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                            <div class="form-text">Selecione uma imagem do seu dispositivo (JPG, PNG, GIF, WebP)</div>
 
-                            <!-- Botão para abrir a câmera -->
-                            <button type="button" class="btn btn-secondary mt-2" id="openCameraBtn">
-                                <i class="fas fa-camera me-1"></i> Capturar da Câmera
-                            </button>
+                            <input type="hidden" name="current_image" value="{{ $dailySpecial->image_url }}">
+
+                            @if($dailySpecial->image_url)
+                            <div class="form-text mt-2">Imagem atual: <a href="{{ $dailySpecial->image_url }}" target="_blank">Ver imagem</a></div>
+                            @endif
                         </div>
                     </div>
-                    <!-- Modal para captura de câmera -->
-                    <div class="modal fade" id="cameraModal" tabindex="-1" aria-labelledby="cameraModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="cameraModalLabel">Capturar Imagem</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="camera-container">
-                                        <video id="cameraFeed" autoplay></video>
-                                        <canvas id="capturedImage" style="display:none;"></canvas>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary" id="captureBtn">Capturar</button>
-                                    <button type="button" class="btn btn-success" id="saveImageBtn" style="display:none;">Usar esta Imagem</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
-
         </div>
 
         <div class="col-md-4">
@@ -108,9 +88,17 @@
             <div class="card mb-4">
                 <div class="card-header">Pré-visualização</div>
                 <div class="card-body">
-                    @if($dailySpecial->image_url)
-                    <img src="{{ $dailySpecial->image_url }}" alt="{{ $dailySpecial->name }}" class="img-fluid rounded mb-3">
-                    @endif
+                    <div id="imagePreview" class="text-center">
+                        @if($dailySpecial->image_url)
+                        <img src="{{ $dailySpecial->image_url }}" alt="{{ $dailySpecial->name }}" class="img-fluid rounded mb-3">
+                        @else
+                        <div class="bg-light text-center py-5 mb-3 rounded">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                            <p class="mt-2 text-muted">Sem imagem</p>
+                        </div>
+                        @endif
+                    </div>
+                    
                     <h5>{{ $dailySpecial->name }}</h5>
                     <p class="text-muted small">{{ Str::limit($dailySpecial->description, 100) }}</p>
                     <div class="d-flex justify-content-between align-items-center">
@@ -130,104 +118,31 @@
 @endsection
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const openCameraBtn = document.getElementById('openCameraBtn');
-        const cameraModal = new bootstrap.Modal(document.getElementById('cameraModal'));
-        const cameraFeed = document.getElementById('cameraFeed');
-        const capturedImage = document.getElementById('capturedImage');
-        const captureBtn = document.getElementById('captureBtn');
-        const saveImageBtn = document.getElementById('saveImageBtn');
-        const imageUrlInput = document.getElementById('image_url');
+     document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('image');
+        const imagePreview = document.getElementById('imagePreview');
+        const currentImageUrl = "{{ $dailySpecial->image_url }}";
         
-        let stream;
-        
-        openCameraBtn.addEventListener('click', async () => {
-            try {
-                // Resetar o canvas e botões
-                capturedImage.style.display = 'none';
-                cameraFeed.style.display = 'block';
-                captureBtn.style.display = 'block';
-                saveImageBtn.style.display = 'none';
+        // Função para atualizar a pré-visualização
+        imageInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
                 
-                // Obter acesso à câmera
-                stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { 
-                        facingMode: 'environment',
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 }
-                    } 
-                });
-                cameraFeed.srcObject = stream;
-                
-                cameraModal.show();
-            } catch (err) {
-                console.error('Erro ao acessar câmera:', err);
-                alert('Não foi possível acessar a câmera. Verifique se concedeu permissões.');
-            }
-        });
-        
-        captureBtn.addEventListener('click', () => {
-            // Configurar canvas com as dimensões do vídeo
-            capturedImage.width = cameraFeed.videoWidth;
-            capturedImage.height = cameraFeed.videoHeight;
-            
-            // Desenhar o frame atual do vídeo no canvas
-            const ctx = capturedImage.getContext('2d');
-            ctx.drawImage(cameraFeed, 0, 0, capturedImage.width, capturedImage.height);
-            
-            // Mostrar a imagem capturada e botão para salvar
-            capturedImage.style.display = 'block';
-            cameraFeed.style.display = 'none';
-            captureBtn.style.display = 'none';
-            saveImageBtn.style.display = 'block';
-        });
-        
-        saveImageBtn.addEventListener('click', async () => {
-            try {
-                // Converter canvas para blob
-                const imgBlob = await new Promise(resolve => {
-                    capturedImage.toBlob(resolve, 'image/jpeg', 0.85);
-                });
-                
-                // Criar FormData e adicionar a imagem
-                const formData = new FormData();
-                formData.append('image', imgBlob, 'captured_image.jpg');
-                
-                // Enviar para o servidor
-                const response = await fetch('/admin/upload-image', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: formData
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Atualizar o campo URL da imagem
-                    imageUrlInput.value = data.image_url;
-                    
-                    // Fechar o modal
-                    cameraModal.hide();
-                    
-                    // Parar a transmissão da câmera
-                    if (stream) {
-                        stream.getTracks().forEach(track => track.stop());
-                    }
-                } else {
-                    alert('Erro ao fazer upload da imagem: ' + data.message);
+                reader.onload = function(e) {
+                    imagePreview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded mb-3" alt="Pré-visualização">`;
                 }
-            } catch (err) {
-                console.error('Erro ao processar imagem:', err);
-                alert('Ocorreu um erro ao processar a imagem.');
-            }
-        });
-        
-        // Limpar recursos quando o modal for fechado
-        document.getElementById('cameraModal').addEventListener('hidden.bs.modal', () => {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
+                
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                // Caso nenhum arquivo seja selecionado, mostrar a imagem atual
+                if (currentImageUrl) {
+                    imagePreview.innerHTML = `<img src="${currentImageUrl}" class="img-fluid rounded mb-3" alt="Imagem atual">`;
+                } else {
+                    imagePreview.innerHTML = `<div class="bg-light text-center py-5 mb-3 rounded">
+                        <i class="fas fa-image fa-3x text-muted"></i>
+                        <p class="mt-2 text-muted">Sem imagem</p>
+                    </div>`;
+                }
             }
         });
     });

@@ -18,7 +18,7 @@
     </div>
 @endif
 
-<form action="{{ route('admin.menu-items.update', $menuItem) }}" method="POST">
+<form action="{{ route('admin.menu-items.update', $menuItem) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     
@@ -62,19 +62,12 @@
                             </select>
                         </div>
                         
-                        <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="image_url" class="form-label">URL da Imagem <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <input type="url" class="form-control" id="image_url" name="image_url" value="{{ old('image_url') }}" required>
-                                <button type="button" class="btn btn-secondary" id="openCameraBtn">
-                                    <i class="fas fa-camera"></i>
-                                </button>
-                            </div>
-                            <div class="form-text">Cole uma URL ou capture uma imagem com a câmera</div>
+                            <label for="image" class="form-label">Imagem <span class="text-danger featured-required d-none">*</span></label>
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                            <div class="form-text">Selecione uma imagem do seu dispositivo (JPG, PNG, GIF, WEBP)</div>
                         </div>
 
-                    </div>
                     </div>
                 </div>
             </div>
@@ -109,14 +102,16 @@
             <div class="card mb-4">
                 <div class="card-header">Pré-visualização</div>
                 <div class="card-body">
-                    @if($menuItem->image_url)
-                        <img src="{{ $menuItem->image_url }}" alt="{{ $menuItem->name }}" class="img-fluid rounded mb-3">
-                    @else
-                        <div class="bg-light text-center py-5 mb-3 rounded">
-                            <i class="fas fa-image fa-3x text-muted"></i>
-                            <p class="mt-2 text-muted">Sem imagem</p>
-                        </div>
-                    @endif
+                    <div id="imagePreview" class="text-center">
+                        @if($menuItem->image_url)
+                            <img src="{{ $menuItem->image_url }}" alt="{{ $menuItem->name }}" class="img-fluid rounded mb-3">
+                        @else
+                            <div class="bg-light text-center py-5 mb-3 rounded">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                                <p class="mt-2 text-muted">Sem imagem</p>
+                            </div>
+                        @endif
+                    </div>
                     <h5>{{ $menuItem->name }}</h5>
                     <p class="text-muted small">{{ Str::limit($menuItem->description, 100) }}</p>
                     <div class="d-flex justify-content-between align-items-center">
@@ -130,4 +125,46 @@
         </div>
     </div>
 </form>
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const featuredCheckbox = document.getElementById('featured');
+        const imageInput = document.getElementById('image');
+        const imagePreview = document.getElementById('imagePreview');
+        const featureRequired = document.querySelector('.featured-required');
+        const currentImageUrl = "{{ $menuItem->image_url }}";
+        
+        // Função para atualizar requerimento de imagem
+        function updateImageRequirement() {
+            if (featuredCheckbox.checked) {
+                imageInput.setAttribute('required', true);
+                featureRequired.classList.remove('d-none');
+            } else {
+                imageInput.removeAttribute('required');
+                featureRequired.classList.add('d-none');
+            }
+        }
+        
+        // Executar na inicialização
+        updateImageRequirement();
+        
+        // Executar quando o checkbox for alterado
+        featuredCheckbox.addEventListener('change', updateImageRequirement);
+        
+        // Pré-visualização da imagem
+        imageInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    imagePreview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded mb-3" alt="Pré-visualização">`;
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    });
+</script>
 @endsection

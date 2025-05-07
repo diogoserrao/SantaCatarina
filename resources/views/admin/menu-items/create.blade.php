@@ -18,7 +18,7 @@
 </div>
 @endif
 
-<form action="{{ route('admin.menu-items.store') }}" method="POST">
+<form action="{{ route('admin.menu-items.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="row">
@@ -61,18 +61,15 @@
                             </select>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="image_url" class="form-label">URL da Imagem <span class="text-danger feature-required d-none">*</span></label>
-                                <div class="input-group">
-                                    <input type="url" class="form-control" id="image_url" name="image_url" value="{{ old('image_url') }}">
-                                    <button type="button" class="btn btn-secondary" id="openCameraBtn">
-                                        <i class="fas fa-camera"></i>
-                                    </button>
-                                </div>
-                                <div class="form-text">Cole uma URL ou capture uma imagem com a câmera</div>
+                        <div class="col-md-6">
+                            <label for="image" class="form-label">Imagem <span class="text-danger featured-required d-none">*</span></label>
+                            <div class="input-group mb-2">
+                                <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                <button class="btn btn-outline-secondary d-none" type="button" id="removeImage">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
-
+                            <div class="form-text">Selecione uma imagem do seu dispositivo (JPG, PNG, GIF, WebP)</div>
                         </div>
                     </div>
                 </div>
@@ -104,6 +101,19 @@
                     </button>
                 </div>
             </div>
+
+            <div class="card mb-4">
+                <div class="card-header">Pré-visualização</div>
+                <div class="card-body">
+                    <div id="imagePreview" class="text-center">
+                        <div class="bg-light text-center py-5 mb-3 rounded">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                            <p class="mt-2 text-muted">Sem imagem</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </form>
@@ -111,27 +121,71 @@
 
 @section('scripts')
 <script>
-    // Tornar campo de imagem obrigatório apenas quando em destaque
-    document.addEventListener('DOMContentLoaded', function() {
+     document.addEventListener('DOMContentLoaded', function() {
         const featuredCheckbox = document.getElementById('featured');
-        const imageUrlInput = document.getElementById('image_url');
-        const featureRequired = document.querySelector('.feature-required');
-
+        const imageInput = document.getElementById('image');
+        const imagePreview = document.getElementById('imagePreview');
+        const featureRequired = document.querySelector('.featured-required');
+        const removeImageBtn = document.getElementById('removeImage');
+        
+        // Função para atualizar requerimento de imagem
         function updateImageRequirement() {
             if (featuredCheckbox.checked) {
-                imageUrlInput.setAttribute('required', true);
+                imageInput.setAttribute('required', true);
                 featureRequired.classList.remove('d-none');
             } else {
-                imageUrlInput.removeAttribute('required');
+                imageInput.removeAttribute('required');
                 featureRequired.classList.add('d-none');
             }
         }
-
+        
         // Executar na inicialização
         updateImageRequirement();
-
+        
         // Executar quando o checkbox for alterado
         featuredCheckbox.addEventListener('change', updateImageRequirement);
+        
+        // Pré-visualização da imagem
+        imageInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    imagePreview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded mb-3" alt="Pré-visualização">`;
+                    // Mostrar botão de remoção
+                    removeImageBtn.classList.remove('d-none');
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                resetImage();
+            }
+        });
+        
+        // Função para remover a imagem
+        removeImageBtn.addEventListener('click', function() {
+            resetImage();
+            
+            // Se item estiver marcado como destaque, validar novamente
+            if (featuredCheckbox.checked) {
+                alert('Atenção: Itens em destaque precisam ter uma imagem.');
+            }
+        });
+        
+        // Função para resetar a imagem
+        function resetImage() {
+            // Limpar o input de arquivo
+            imageInput.value = '';
+            
+            // Ocultar botão de remoção
+            removeImageBtn.classList.add('d-none');
+            
+            // Restaurar o placeholder
+            imagePreview.innerHTML = `<div class="bg-light text-center py-5 mb-3 rounded">
+                <i class="fas fa-image fa-3x text-muted"></i>
+                <p class="mt-2 text-muted">Sem imagem</p>
+            </div>`;
+        }
     });
 </script>
 @endsection

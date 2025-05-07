@@ -6,25 +6,38 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DailySpecialController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\GalleryImageController;
 use App\Http\Controllers\Admin\ImageUploadController;
 use App\Http\Controllers\DailySpecialController as PublicDailySpecialController;
+use App\Http\Controllers\GalleryController;
 use App\Models\Category;
 use App\Models\MenuItem;
 use App\Models\DailySpecial;
+use App\Models\GalleryImage;
+use App\Models\Banner;
 
 // Rota principal (página inicial)
 Route::get('/', function () {
+    
+    $banners = Banner::where('is_active', true)
+        ->orderBy('display_order')
+        ->get();
+
     $categories = Category::all();
     $featuredItems = MenuItem::where('featured', true)->orderBy('display_order')->get();
     $dailySpecial = DailySpecial::getActive();
-
-    return view('index', compact('categories', 'featuredItems', 'dailySpecial'));
+    $galleryImages = GalleryImage::where('is_active', true)->orderBy('display_order')->get();
+    return view('index', compact('categories', 'featuredItems', 'dailySpecial', 'galleryImages'));
 });
 
 // Rota pública para o prato do dia
 Route::get('/prato-do-dia', [PublicDailySpecialController::class, 'show'])->name('pratododia');
 Route::post('/daily-special/{dailySpecial}/toggle-availability', [PublicDailySpecialController::class, 'toggleAvailability'])
     ->name('daily-special.toggle-availability');
+
+// Adicione esta rota fora do grupo admin
+Route::get('/galeria', [GalleryController::class, 'index'])->name('galeria');
 
 // Autenticação - estas rotas devem estar acessíveis para não autenticados
 Route::middleware('guest')->group(function () {
@@ -56,8 +69,17 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Categorias
     Route::resource('categories', CategoryController::class);
 
-    // Rota para upload de imagens via câmera
-    Route::post('/admin/upload-image', [ImageUploadController::class, 'store'])
-        ->name('admin.upload-image')
-        ->middleware('auth');
+    // Rotas para banners
+    Route::resource('banners', BannerController::class);
+    Route::post('banners/{banner}/toggle-active', [BannerController::class, 'toggleActive'])
+        ->name('banners.toggle-active');
+
+    // Rotas para galeria
+    Route::resource('gallery-images', GalleryImageController::class);
+    Route::post('gallery-images/{galleryImage}/toggle-active',[GalleryImageController::class, 'toggleActive'])
+        ->name('gallery-images.toggle-active');
+
+
+    // Dentro do grupo de rotas admin
+    Route::post('upload-image', [ImageUploadController::class, 'store'])->name('upload-image');
 });
