@@ -1,8 +1,11 @@
 <head>
     <link rel="stylesheet" href="{{ asset('header.css') }}">
-    <!-- Adicionar CSS do Glide.js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.core.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.theme.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <header id="header">
@@ -35,82 +38,89 @@
     </div>
 </header>
 
+
 <!-- Carrossel de Banners -->
 <section id="home" class="banner-carousel">
-    <div class="glide">
-        <div class="glide__track" data-glide-el="track">
-            <ul class="glide__slides">
-                @if(isset($banners) && count($banners) > 0)
-                @foreach($banners as $banner)
-                <li class="glide__slide">
-                    <div class="banner-hero" style="background-image: url('{{ $banner->image_url }}');">
-                        <div class="banner-overlay">
-                            <div class="banner-content">
-                                <h2>{{ $banner->title }}</h2>
-                                @if($banner->button_text)
-                                <a href="{{ $banner->button_link }}" class="btn-hero">{{ $banner->button_text }}</a>
-                                @endif
-                            </div>
+    <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+
+        <!-- Slides -->
+        <div class="carousel-inner">
+            
+            <!-- Banner 1 -->
+            <div class="carousel-item active">
+                <div class="banner-hero" style="background-image: url('/images/banner1.webp');">
+                    <div class="banner-overlay">
+                        <div class="banner-content">
+                            <h2>Descubra Nossa Culinária</h2>
+                            <p>Pratos tradicionais com um toque moderno</p>
+                            <a href="#menu" class="btn-hero">Ver Menu</a>
                         </div>
                     </div>
-                </li>
-                @endforeach
-                @else
+                </div>
+            </div>
 
-                <!-- Banner padrão caso não tenha nenhum no banco de dados -->
-                <li class="glide__slide">
-                    <div class="banner-hero" style="background-image: url('/images/banner1.webp');">
-                        <div class="banner-overlay">
-                            <div class="banner-content">
-                                <h2>Experiências gastronómicas memoráveis</h2>
-                                <p>Descubra o equilíbrio perfeito entre tradição e inovação no nosso Menu cuidadosamente elaborado.</p>
-                                <a href="#menu" class="btn-hero">Ver Menu</a>
-                            </div>
+            <!-- Banner 2 -->
+            <div class="carousel-item">
+                <div class="banner-hero" style="background-image: url('/images/banner2.webp');">
+                    <div class="banner-overlay">
+                        <div class="banner-content">
+                            <h2>Um Ambiente Único</h2>
+                            <p>Venha conhecer nosso espaço acolhedor</p>
+                            <a href="#about" class="btn-hero">Sobre Nós</a>
                         </div>
                     </div>
-                </li>
-                @endforelse
-            </ul>
+                </div>
+            </div>
         </div>
 
-        <!-- Setas de navegação -->
-        <div class="glide__arrows" data-glide-el="controls">
-            <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="glide__arrow glide__arrow--right" data-glide-dir=">">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-
-        
+        <!-- Controles (setas - invisíveis por padrão) -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Próximo</span>
+        </button>
     </div>
 </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/glide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Verificar quantos slides existem
-        const slides = document.querySelectorAll('.glide__slide');
-        console.log(`Carrossel inicializando com ${slides.length} slides`);
+        // Inicialização do carrossel com opções
+        const carousel = new bootstrap.Carousel(document.getElementById('bannerCarousel'), {
+            interval: 5000,
+            wrap: true,
+            keyboard: true,
+            pause: 'hover',
+            touch: true, // Garante que o swipe funcione em mobile
+            swipe: true  // Habilita explicitamente o swipe
+        });
         
-        if (slides.length > 1) {
-            const glideCarousel = new Glide('.glide', {
-                type: 'carousel',
-                autoplay: 5000,
-                animationDuration: 800,
-                hoverpause: true,
-                gap: 0,
-                perView: 1,
-                startAt: 0
+        // Efeito do menu mobile
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const nav = document.querySelector('#main-nav');
+        
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                nav.classList.toggle('open');
             });
+        }
+        
+        // Verificar se está em mobile para ajustar comportamento
+        const isMobile = window.innerWidth <= 768;
+        
+        // Em dispositivos móveis, forçar a opção touch
+        if (isMobile) {
+            // Adicionar uma classe específica para mobile
+            document.querySelector('.banner-carousel').classList.add('mobile-carousel');
+        } else {
+            // Em desktop, adicionar efeito de fade para as setas
+            const carouselElement = document.querySelector('#bannerCarousel');
+            const arrows = document.querySelectorAll('.carousel-control-prev, .carousel-control-next');
             
-            glideCarousel.mount();
-            
-            // Forçar a mudança de slides para testar
-            setInterval(() => {
-                glideCarousel.go('>');
-            }, 6000);
         }
     });
 </script>

@@ -82,7 +82,7 @@ nav ul li a:hover {
 
 /* Estilos para o Carrossel */
 .banner-carousel {
-    margin-top: 0; /* Remover a margem superior */
+    margin-top: 0;
     padding-top: 90px;
     margin-bottom: 0;
     padding-bottom: 0 !important;
@@ -113,17 +113,18 @@ nav ul li a:hover {
     text-align: center;
     padding: 0 20px;
     color: white;
+    z-index: 10;
 }
 
 .banner-content h2 {
-    font-size: 48px;
+    font-size: 58px;
     margin-bottom: 20px;
     font-weight: 700;
     color: white;
 }
 
 .banner-content p {
-    font-size: 20px;
+    font-size: 24px;
     margin-bottom: 30px;
     font-weight: 300;
 }
@@ -134,7 +135,7 @@ nav ul li a:hover {
     padding: 15px 30px;
     border-radius: 30px;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 20px;
     text-decoration: none;
     display: inline-block;
     transition: all 0.3s;
@@ -144,44 +145,26 @@ nav ul li a:hover {
 .btn-hero:hover {
     background-color: #8b5a2b;
     transform: translateY(-3px);
+    color: white;
+    text-decoration: none;
 }
 
-/* Controles do Glide.js */
-.glide__bullets {
-    bottom: 20px;
-    position: absolute;
-    z-index: 2;
-    width: 100%;
-    text-align: center;
+/* Estilos para os indicadores e controles do Bootstrap */
+
+
+
+.carousel-control-prev {
+    left: -116px; 
+    opacity: 0;
 }
 
-.glide__bullet {
-    background-color: rgba(255, 255, 255, 0.7);
-    width: 10px;
-    height: 10px;
-    margin: 0 5px;
-    padding: 0;
-    border-radius: 50%;
-    border: none;
+.carousel-control-next {
+    right: -116px; 
+    opacity: 0;
 }
 
-.glide__bullet--active {
-    background-color: #c7a17a;
-}
 
-.glide__arrow {
-    border: none;
-    background-color: rgba(255, 255, 255, 0.5);
-    color: #5a3921;
-    padding: 10px;
-    position: absolute;
-    z-index: 2;
-}
-
-.glide__arrow:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-}
-
+/* Parte Mobile*/
 .mobile-menu-toggle {
     display: none;
     position: relative;
@@ -294,14 +277,41 @@ nav ul li a:hover {
 
     /* Ajustes responsivos para o banner */
     .banner-hero {
-        height: 80vh;
+        height: calc(80vh - 70px);
     }
-
+    
     .banner-content h2 {
         font-size: 32px;
+        margin-bottom: 10px;
     }
-
+    
     .banner-content p {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .btn-hero {
+        padding: 12px 24px;
+        font-size: 18px;
+    }
+    
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        display: none !important; 
+    }
+}
+
+@media (max-width: 480px) {
+    .banner-content h2 {
+        font-size: 28px;
+    }
+    
+    .banner-content p {
+        font-size: 18px;
+    }
+    
+    .btn-hero {
+        padding: 10px 20px;
         font-size: 16px;
     }
+    
 }

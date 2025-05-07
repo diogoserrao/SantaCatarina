@@ -1,4 +1,3 @@
-.blade.php
 @extends('layouts.admin')
 
 @section('content')
@@ -22,7 +21,7 @@
 <form action="{{ route('admin.banners.update', $banner) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-    
+
     <div class="row">
         <div class="col-md-8">
             <div class="card mb-4">
@@ -37,12 +36,12 @@
                         <label for="image" class="form-label">Imagem</label>
                         <input type="file" class="form-control" id="image" name="image" accept="image/*">
                         <div class="form-text">Dimensão recomendada: 1920x1080px. Tamanho máximo: 2MB.</div>
-                        
+
                         @if($banner->image_url)
                         <div class="mt-2">
                             <small class="text-muted">Imagem atual:</small>
                             <div class="mt-2">
-                                <img src="{{ $banner->image_url }}" alt="{{ $banner->title }}" 
+                                <img src="{{ $banner->image_url }}" alt="{{ $banner->title }}"
                                     class="img-thumbnail" style="max-height: 200px;">
                             </div>
                         </div>
@@ -53,17 +52,32 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="button_text" class="form-label">Texto do Botão</label>
-                                <input type="text" class="form-control" id="button_text" name="button_text" 
+                                <input type="text" class="form-control" id="button_text" name="button_text"
                                     value="{{ old('button_text', $banner->button_text) }}">
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="button_link" class="form-label">Link do Botão</label>
-                                <input type="text" class="form-control" id="button_link" name="button_link" 
-                                    value="{{ old('button_link', $banner->button_link) }}">
+                                <div class="input-group">
+                                    <select class="form-select" id="section_selector" aria-label="Selecione a seção">
+                                        <option value="" selected>Selecione uma seção</option>
+                                        <option value="#home">Início</option>
+                                        <option value="#pratododia">Prato do Dia</option>
+                                        <option value="#about">Sobre Nós</option>
+                                        <option value="#menu">Menu</option>
+                                        <option value="#gallery">Galeria</option>
+                                        <option value="#contact">Contactos</option>
+                                    </select>
+                                    <button class="btn btn-outline-secondary" type="button" id="apply_section">Aplicar</button>
+                                </div>
+                                <div class="form-text mb-2">Ou digite manualmente o link abaixo:</div>
+                                <input type="text" class="form-control" id="button_link" name="button_link"
+                                    value="{{ old('button_link', $banner->button_link) }}" placeholder="Ex: #menu ou https://...">
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -118,16 +132,49 @@
     document.addEventListener('DOMContentLoaded', function() {
         const imageInput = document.getElementById('image');
         const imagePreview = document.getElementById('imagePreview');
-        
+
         imageInput.addEventListener('change', function(event) {
             if (event.target.files && event.target.files[0]) {
                 const reader = new FileReader();
-                
+
                 reader.onload = function(e) {
                     imagePreview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded" alt="Pré-visualização">`;
                 }
-                
+
                 reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+
+        const sectionSelector = document.getElementById('section_selector');
+        const buttonLink = document.getElementById('button_link');
+        const applyButton = document.getElementById('apply_section');
+        
+        // Pré-selecionar a seção com base no link atual
+        const currentLink = buttonLink.value;
+        if (currentLink) {
+            // Procura uma opção que corresponda ao link atual
+            for(let i = 0; i < sectionSelector.options.length; i++) {
+                if (sectionSelector.options[i].value === currentLink) {
+                    sectionSelector.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+        
+        applyButton.addEventListener('click', function() {
+            const selectedValue = sectionSelector.value;
+            if (selectedValue) {
+                // Define o valor no campo de link
+                buttonLink.value = selectedValue;
+                
+                // Feedback visual que funcionou
+                buttonLink.classList.add('bg-success', 'text-white');
+                setTimeout(() => {
+                    buttonLink.classList.remove('bg-success', 'text-white');
+                }, 500);
+                
+                // Foca no campo para o usuário ver a mudança
+                buttonLink.focus();
             }
         });
     });
