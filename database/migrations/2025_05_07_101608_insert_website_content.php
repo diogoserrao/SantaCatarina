@@ -311,9 +311,10 @@ return new class extends Migration
         DB::table('banners')->insert([
             [
                 'title' => 'Bem-vindo ao Santa Catarina',
+                'description' => 'Descubra o sabor autêntico da nossa cozinha portuguesa.',
                 'image_url' => '/images/banner2.webp',
                 'button_text' => 'Conheça nosso menu',
-                'button_link' => '/menu',
+                'button_link' => '#menu',
                 'is_active' => true,
                 'display_order' => 1,
                 'created_at' => now(),
@@ -321,9 +322,10 @@ return new class extends Migration
             ],
             [
                 'title' => 'Especialidades da Casa',
+                'description' => 'Experimente nossos pratos especiais do dia, preparados com ingredientes frescos e locais.',
                 'image_url' => '/images/banner1.webp',
                 'button_text' => 'Ver Especiais',
-                'button_link' => '/pratododia',
+                'button_link' => '#pratododia',
                 'is_active' => true,
                 'display_order' => 2,
                 'created_at' => now(),

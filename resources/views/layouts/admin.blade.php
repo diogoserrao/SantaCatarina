@@ -70,12 +70,14 @@
                             <i class="fas fa-list me-1"></i> Galeria
                         </a>
                     </li>
-                    <!-- <li class="nav-item"> BANNERS******************
-            <a class="nav-link {{ request()->routeIs('admin.banners.*') ? 'active' : '' }}"
-                href="{{ route('admin.banners.index') }}">
-                <i class="fas fa-list me-1"></i> Banners
-            </a>
-        </li> -->
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.banners.*') ? 'active' : '' }}"
+                            href="{{ route('admin.banners.index') }}">
+                            <i class="fas fa-list me-1"></i> Banners
+                        </a>
+                    </li>
+                    
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">

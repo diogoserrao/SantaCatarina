@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DailySpecialController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\GalleryImageController;
 use App\Http\Controllers\Admin\ImageUploadController;
 use App\Http\Controllers\DailySpecialController as PublicDailySpecialController;
@@ -18,18 +19,8 @@ use App\Models\GalleryImage;
 use App\Models\Banner;
 
 // Rota principal (página inicial)
-Route::get('/', function () {
-    
-    $banners = Banner::where('is_active', true)
-        ->orderBy('display_order')
-        ->get();
+Route::get('/', [HomeController::class, 'index']);
 
-    $categories = Category::all();
-    $featuredItems = MenuItem::where('featured', true)->orderBy('display_order')->get();
-    $dailySpecial = DailySpecial::getActive();
-    $galleryImages = GalleryImage::where('is_active', true)->orderBy('display_order')->get();
-    return view('index', compact('categories', 'featuredItems', 'dailySpecial', 'galleryImages'));
-});
 
 // Rota pública para o prato do dia
 Route::get('/prato-do-dia', [PublicDailySpecialController::class, 'show'])->name('pratododia');
@@ -73,6 +64,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('banners', BannerController::class);
     Route::post('banners/{banner}/toggle-active', [BannerController::class, 'toggleActive'])
         ->name('banners.toggle-active');
+        Route::patch('/admin/banners/{banner}/toggle', [BannerController::class, 'toggle'])
+        ->name('banners.toggle');
 
     // Rotas para galeria
     Route::resource('gallery-images', GalleryImageController::class);

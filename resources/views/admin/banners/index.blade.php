@@ -30,16 +30,18 @@
                 <tbody>
                     @forelse($banners as $banner)
                     <tr>
+                        
                         <td>
                             @if($banner->image_url)
-                            <img src="{{ $banner->image_url }}" alt="{{ $banner->title }}" 
-                                class="img-thumbnail" style="width: 60px; height: 40px; object-fit: cover;">
+                            <img src="{{ $banner->image_url }}" alt="{{ $banner->title }}"
+                                style="width: 100%; height: auto; max-height: 80px; object-fit: cover; border-radius: 4px;">
                             @else
                             <div class="bg-light text-center rounded p-2">
                                 <i class="fas fa-image text-muted"></i>
                             </div>
                             @endif
                         </td>
+
                         <td>{{ $banner->title }}</td>
                         <td>
                             @if($banner->button_text)
@@ -54,11 +56,26 @@
                             </span>
                         </td>
                         <td>{{ $banner->display_order }}</td>
+
                         <td>
                             <div class="d-flex gap-2">
-                                <a href="{{ route('admin.banners.edit', $banner) }}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-edit"></i>
+
+                                <!-- Botão de editar -->
+                                <a href="{{ route('admin.banners.edit', $banner) }}" class="btn btn-sm btn-primary d-flex align-items-center">
+                                    <i class="fas fa-edit me-1"></i> Editar
                                 </a>
+
+                                <!-- Botão de toggle ativo/inativo -->
+                                <form action="{{ route('admin.banners.toggle', $banner) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-sm {{ $banner->is_active ? 'btn-secondary' : 'btn-success' }} d-flex align-items-center">
+                                        <i class="fas fa-{{ $banner->is_active ? 'eye-slash' : 'eye' }} me-1"></i>
+                                        {{ $banner->is_active ? 'Desativar' : 'Ativar' }}
+                                    </button>
+                                </form>
+
+                                <!-- Botão de excluir -->
                                 <form action="{{ route('admin.banners.destroy', $banner) }}" method="POST"
                                     onsubmit="return confirm('Tem certeza que deseja excluir este banner?')">
                                     @csrf
@@ -67,8 +84,10 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
+
                             </div>
                         </td>
+
                     </tr>
                     @empty
                     <tr>

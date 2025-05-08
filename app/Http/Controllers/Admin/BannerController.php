@@ -33,6 +33,7 @@ class BannerController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
             'image' => 'required|image|max:2048', // 2MB max
             'button_text' => 'nullable|string|max:50',
             'button_link' => 'nullable|string|max:255',
@@ -45,9 +46,10 @@ class BannerController extends Controller
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $path = $image->storeAs('uploads/banners', $filename, 'public');
-            
+
             Banner::create([
                 'title' => $request->title,
+                'description' => $request->description,
                 'image_url' => '/storage/' . $path,
                 'button_text' => $request->button_text,
                 'button_link' => $request->button_link,
@@ -77,6 +79,7 @@ class BannerController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
             'image' => 'nullable|image|max:2048', // 2MB max
             'button_text' => 'nullable|string|max:50',
             'button_link' => 'nullable|string|max:255',
@@ -86,6 +89,7 @@ class BannerController extends Controller
 
         $data = [
             'title' => $request->title,
+            'description' => $request->description,
             'button_text' => $request->button_text,
             'button_link' => $request->button_link,
             'is_active' => $request->has('is_active'),
@@ -97,13 +101,13 @@ class BannerController extends Controller
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $path = $image->storeAs('uploads/banners', $filename, 'public');
-            
+
             // Remover imagem antiga se não for uma imagem padrão
             if ($banner->image_url && !str_starts_with($banner->image_url, '/images/')) {
                 $oldPath = str_replace('/storage/', 'public/', $banner->image_url);
                 Storage::delete($oldPath);
             }
-            
+
             $data['image_url'] = '/storage/' . $path;
         }
 
@@ -129,4 +133,21 @@ class BannerController extends Controller
         return redirect()->route('admin.banners.index')
             ->with('success', 'Banner removido com sucesso!');
     }
+
+    /**
+     * Alterna o status de ativação do banner.
+     *
+     * @param \App\Models\Banner $banner
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function toggle(Banner $banner)
+    {
+        $banner->is_active = !$banner->is_active;
+        $banner->save();
+
+        $status = $banner->is_active ? 'ativado' : 'desativado';
+        return redirect()->route('admin.banners.index')
+            ->with('success', "Banner {$status} com sucesso!");
+    }
+    
 }

@@ -33,48 +33,34 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="image" class="form-label">Imagem</label>
-                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                        <div class="form-text">Dimensão recomendada: 1920x1080px. Tamanho máximo: 2MB.</div>
-
-                        @if($banner->image_url)
-                        <div class="mt-2">
-                            <small class="text-muted">Imagem atual:</small>
-                            <div class="mt-2">
-                                <img src="{{ $banner->image_url }}" alt="{{ $banner->title }}"
-                                    class="img-thumbnail" style="max-height: 200px;">
-                            </div>
-                        </div>
-                        @endif
+                        <label for="description" class="form-label">Descrição <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required>{{ old('description', $banner->description) }}</textarea>
+                        <div class="form-text">Texto curto que aparece abaixo do título do banner.</div>
                     </div>
+
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="button_text" class="form-label">Texto do Botão</label>
+                                <label for="button_text" class="form-label">Texto do Botão <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="button_text" name="button_text"
-                                    value="{{ old('button_text', $banner->button_text) }}">
+                                    value="{{ old('button_text', $banner->button_text) }}" required>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="button_link" class="form-label">Link do Botão</label>
-                                <div class="input-group">
-                                    <select class="form-select" id="section_selector" aria-label="Selecione a seção">
-                                        <option value="" selected>Selecione uma seção</option>
-                                        <option value="#home">Início</option>
-                                        <option value="#pratododia">Prato do Dia</option>
-                                        <option value="#about">Sobre Nós</option>
-                                        <option value="#menu">Menu</option>
-                                        <option value="#gallery">Galeria</option>
-                                        <option value="#contact">Contactos</option>
-                                    </select>
-                                    <button class="btn btn-outline-secondary" type="button" id="apply_section">Aplicar</button>
-                                </div>
-                                <div class="form-text mb-2">Ou digite manualmente o link abaixo:</div>
-                                <input type="text" class="form-control" id="button_link" name="button_link"
-                                    value="{{ old('button_link', $banner->button_link) }}" placeholder="Ex: #menu ou https://...">
+                                <label for="button_link" class="form-label">Link do Botão <span class="text-danger">*</span></label>
+                                <select class="form-select" id="button_link" name="button_link" required>
+                                    <option value="" selected>-- Selecione uma seção --</option>
+                                    <option value="#home">Início</option>
+                                    <option value="#pratododia">Prato do Dia</option>
+                                    <option value="#about">Sobre Nós</option>
+                                    <option value="#menu">Menu</option>
+                                    <option value="#gallery">Galeria</option>
+                                    <option value="#contact">Contactos</option>
+                                </select>
+                                <div class="form-text">Escolha para qual seção da página o botão irá direcionar.</div>
                             </div>
                         </div>
 
@@ -148,31 +134,49 @@
         const sectionSelector = document.getElementById('section_selector');
         const buttonLink = document.getElementById('button_link');
         const applyButton = document.getElementById('apply_section');
-        
+
         // Pré-selecionar a seção com base no link atual
         const currentLink = buttonLink.value;
-        if (currentLink) {
+        if (currentLink && currentLink.startsWith('#')) {
             // Procura uma opção que corresponda ao link atual
-            for(let i = 0; i < sectionSelector.options.length; i++) {
+            for (let i = 0; i < sectionSelector.options.length; i++) {
                 if (sectionSelector.options[i].value === currentLink) {
                     sectionSelector.selectedIndex = i;
                     break;
                 }
             }
         }
-        
+
         applyButton.addEventListener('click', function() {
             const selectedValue = sectionSelector.value;
             if (selectedValue) {
                 // Define o valor no campo de link
                 buttonLink.value = selectedValue;
-                
+
                 // Feedback visual que funcionou
                 buttonLink.classList.add('bg-success', 'text-white');
                 setTimeout(() => {
                     buttonLink.classList.remove('bg-success', 'text-white');
                 }, 500);
-                
+
+                // Mostra uma mensagem de confirmação
+                const feedback = document.createElement('div');
+                feedback.className = 'alert alert-success mt-2 py-1 small';
+                feedback.innerHTML = `<i class="fas fa-check-circle"></i> Link configurado para a seção "${selectedValue}"`;
+
+                // Adiciona a mensagem após o campo
+                const parentElement = buttonLink.closest('.mb-3');
+                const existingFeedback = parentElement.querySelector('.alert');
+                if (existingFeedback) {
+                    existingFeedback.remove();
+                }
+                parentElement.appendChild(feedback);
+
+                // Remove a mensagem após 3 segundos
+                setTimeout(() => {
+                    feedback.remove();
+                }, 3000);
+
                 // Foca no campo para o usuário ver a mudança
                 buttonLink.focus();
             }
