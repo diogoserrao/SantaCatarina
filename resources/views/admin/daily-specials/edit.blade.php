@@ -59,9 +59,7 @@
 
                             <input type="hidden" name="current_image" value="{{ $dailySpecial->image_url }}">
 
-                            @if($dailySpecial->image_url)
-                            <div class="form-text mt-2">Imagem atual: <a href="{{ $dailySpecial->image_url }}" target="_blank">Ver imagem</a></div>
-                            @endif
+                           
                         </div>
                     </div>
 
