@@ -29,19 +29,33 @@ footer {
 }
 
 .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+    margin-top: 20px;
 }
 
-.social-links a {
-    color: white;
-    font-size: 20px;
-    transition: color 0.3s;
+.social-links a.facebook {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 15px;
+    color: #fff;
+    background-color: #3b5998;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
-.social-links a:hover {
-    color: #c7a17a;
+.social-links a.facebook:hover {
+    background-color: #4267B2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.social-links i {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.social-links span {
+    font-weight: 500;
 }
 
 .copyright {

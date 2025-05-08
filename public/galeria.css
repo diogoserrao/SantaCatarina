@@ -1,6 +1,16 @@
 .gallery {
-    background-color: white;
+    background-color: #fdfbf8;
+    padding: 50px 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.gallery h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #4b2e1f;
+    margin-bottom: 40px;
+}
+
 
 .gallery-grid {
     display: grid;

@@ -1,14 +1,14 @@
 .contact {
-    background-color: #f9f5f0;
-    padding: 80px 0;
+    background-color: #fdfbf8;
+    padding: 50px 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.section-title {
+.contact h2 {
     text-align: center;
-    font-size: 36px;
-    color: #5a3921;
-    margin-bottom: 50px;
-    position: relative;
+    font-size: 2.5rem;
+    color: #4b2e1f;
+    margin-bottom: 40px;
 }
 
 .section-title:after {
@@ -140,19 +140,32 @@
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
 
-.social-link.facebook:hover {
+.social-links a.facebook {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 15px;
+    color: #fff;
     background-color: #3b5998;
-    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    width: auto;
+    height: auto;
 }
 
-.social-link.instagram:hover {
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-    color: white;
+.social-links a.facebook:hover {
+    background-color: #4267B2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.social-link.whatsapp:hover {
-    background-color: #25d366;
-    color: white;
+.social-links i {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.social-links span {
+    font-weight: 500;
 }
 
 .map-container {

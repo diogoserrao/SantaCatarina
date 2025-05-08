@@ -9,9 +9,10 @@
                 <h3>Santa Catarina</h3>
                 <p>Onde cada chávena e cada prato contam uma história de paixão pela gastronomia.</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://facebook.com/santacatarina" class="facebook" title="Siga-nos no Facebook"  target="_blank">
+                        <i class="fab fa-facebook-f"></i>
+                        <span>Siga-nos no Facebook</span>
+                    </a>
                 </div>
             </div>
 
