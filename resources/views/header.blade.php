@@ -87,7 +87,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+   document.addEventListener('DOMContentLoaded', function() {
         // Inicialização do carrossel com opções
         const carousel = new bootstrap.Carousel(document.getElementById('bannerCarousel'), {
             interval: 5000,
@@ -98,29 +98,51 @@
             swipe: true  // Habilita explicitamente o swipe
         });
         
-        // Efeito do menu mobile
+        // Efeito do menu mobile - CORRIGIDO
         const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
         const nav = document.querySelector('#main-nav');
         
         if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', function() {
+            // Remover event listeners antigos que podem estar causando conflito
+            mobileMenuToggle.replaceWith(mobileMenuToggle.cloneNode(true));
+            
+            // Re-selecionar após clonar
+            const newMobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            
+            // Adicionar evento com debugging
+            newMobileMenuToggle.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevenir comportamento padrão
+                e.stopPropagation(); // Impedir propagação do evento
+                
                 this.classList.toggle('active');
                 nav.classList.toggle('open');
+                
+                console.log('Menu toggle clicked', {
+                    toggleActive: this.classList.contains('active'),
+                    navOpen: nav.classList.contains('open')
+                });
             });
         }
         
         // Verificar se está em mobile para ajustar comportamento
         const isMobile = window.innerWidth <= 768;
         
-        // Em dispositivos móveis, forçar a opção touch
+      
         if (isMobile) {
-            // Adicionar uma classe específica para mobile
             document.querySelector('.banner-carousel').classList.add('mobile-carousel');
         } else {
-            // Em desktop, adicionar efeito de fade para as setas
             const carouselElement = document.querySelector('#bannerCarousel');
             const arrows = document.querySelectorAll('.carousel-control-prev, .carousel-control-next');
             
+            if (carouselElement && arrows.length) {
+                carouselElement.addEventListener('mouseenter', function() {
+                    arrows.forEach(arrow => arrow.style.opacity = '0.7');
+                });
+                
+                carouselElement.addEventListener('mouseleave', function() {
+                    arrows.forEach(arrow => arrow.style.opacity = '0');
+                });
+            }
         }
     });
 </script>
