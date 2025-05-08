@@ -5,11 +5,11 @@
     <h1 class="h2">Dashboard</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
-            <a href="{{ route('admin.daily-specials.create') }}" class="btn btn-sm btn-outline-secondary">
-                <i class="fas fa-plus me-1"></i> Novo Prato do Dia
+            <a href="{{ route('admin.daily-specials.create') }}" class="btn btn-success shadow-sm me-2">
+                <i class="fas fa-utensils me-1"></i> Novo Prato do Dia
             </a>
-            <a href="{{ route('admin.menu-items.create') }}" class="btn btn-sm btn-outline-secondary">
-                <i class="fas fa-plus me-1"></i> Novo Item de Menu
+            <a href="{{ route('admin.menu-items.create') }}" class="btn btn-primary shadow-sm">
+                <i class="fas fa-plus-circle me-1"></i> Novo Item de Menu
             </a>
         </div>
     </div>

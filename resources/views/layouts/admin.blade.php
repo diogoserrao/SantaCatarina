@@ -39,60 +39,60 @@
             </button>
 
             <div class="collapse navbar-collapse" id="mainNav">
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
-                href="{{ route('admin.dashboard') }}">
-                <i class="fas fa-tachometer-alt me-1"></i> Dashboard
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.daily-specials.*') ? 'active' : '' }}"
-                href="{{ route('admin.daily-specials.index') }}">
-                <i class="fas fa-star me-1"></i> Prato do Dia
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.menu-items.*') ? 'active' : '' }}"
-                href="{{ route('admin.menu-items.index') }}">
-                <i class="fas fa-hamburger me-1"></i> Items do Menu
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}"
-                href="{{ route('admin.categories.index') }}">
-                <i class="fas fa-list me-1"></i> Categorias
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.gallery-images.*') ? 'active' : '' }}"
-                href="{{ route('admin.gallery-images.index') }}">
-                <i class="fas fa-list me-1"></i> Galeria
-            </a>
-        </li>
-        <!-- <li class="nav-item"> BANNERS******************
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                            href="{{ route('admin.dashboard') }}">
+                            <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.daily-specials.*') ? 'active' : '' }}"
+                            href="{{ route('admin.daily-specials.index') }}">
+                            <i class="fas fa-star me-1"></i> Prato do Dia
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.menu-items.*') ? 'active' : '' }}"
+                            href="{{ route('admin.menu-items.index') }}">
+                            <i class="fas fa-hamburger me-1"></i> Items do Menu
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}"
+                            href="{{ route('admin.categories.index') }}">
+                            <i class="fas fa-list me-1"></i> Categorias
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.gallery-images.*') ? 'active' : '' }}"
+                            href="{{ route('admin.gallery-images.index') }}">
+                            <i class="fas fa-list me-1"></i> Galeria
+                        </a>
+                    </li>
+                    <!-- <li class="nav-item"> BANNERS******************
             <a class="nav-link {{ request()->routeIs('admin.banners.*') ? 'active' : '' }}"
                 href="{{ route('admin.banners.index') }}">
                 <i class="fas fa-list me-1"></i> Banners
             </a>
         </li> -->
-    </ul>
-    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url('/') }}" target="_blank">
-                <i class="fas fa-external-link-alt me-1"></i> Ver Site
-            </a>
-        </li>
-        <li class="nav-item">
-            <form action="{{ route('logout') }}" method="POST" class="m-0">
-                @csrf
-                <button type="submit" class="nav-link border-0 bg-transparent">
-                    <i class="fas fa-sign-out-alt me-1 text-danger"></i> Sair
-                </button>
-            </form>
-        </li>
-    </ul>
-</div>
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/') }}" target="_blank">
+                            <i class="fas fa-external-link-alt me-1"></i> Ver Site
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST" class="m-0">
+                            @csrf
+                            <button type="submit" class="nav-link border-0 bg-transparent">
+                                <i class="fas fa-sign-out-alt me-1 text-danger"></i> Sair
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
     </nav>
 
     <!-- Conteúdo Principal -->
@@ -120,6 +120,26 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     @yield('scripts')
+
+    <script>
+        // Auto-dismissal para alertas de sucesso
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert-success');
+            if (alerts.length > 0) {
+                setTimeout(function() {
+                    alerts.forEach(function(alert) {
+                        const closeButton = alert.querySelector('.btn-close');
+                        if (closeButton) {
+                            closeButton.click();
+                        } else {
+                            alert.style.display = 'none';
+                        }
+                    });
+                }, 5000); // 5 segundos
+            }
+        });
+    </script>
+
 </body>
 
 </html>
