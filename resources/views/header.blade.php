@@ -32,7 +32,7 @@
                 <li><a href="#menu">Menu</a></li>
                 <li><a href="#gallery">Galeria</a></li>
                 <li><a href="#contact">Contactos</a></li>
-                <li><a href="#" class="btn-reserva">Reservas</a></li>
+                <li><a href="#contact" class="btn-reserva">Reservas</a></li>
             </ul>
         </nav>
     </div>

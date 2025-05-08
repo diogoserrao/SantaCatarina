@@ -16,24 +16,46 @@
 /* ===== BASE STYLES ===== */
 .dish-of-the-day {
     background-color: var(--bg-light);
-    padding: 60px 0;
+    padding: 80px 0;
     width: 100%;
-    margin: 0 ;
+    margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
+    position: relative;
+    background-size: 30px;
+}
+
+.section-decoration {
+    margin-bottom: 25px;
+}
+
+.decoration-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background-color: var(--brown-dark);
+    color: var(--white);
+    border-radius: 50%;
+    font-size: 28px;
+    box-shadow: 0 5px 15px rgba(90, 57, 33, 0.2);
+    margin-bottom: 15px;
 }
 
 .dish-of-the-day h2 {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     color: var(--brown-dark);
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     position: relative;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 .dish-of-the-day h2:after {
     content: '';
     display: block;
-    width: 80px;
+    width: 100px;
     height: 4px;
     background: linear-gradient(to right, var(--gold), var(--brown-dark));
     margin: 15px auto 0;
@@ -42,39 +64,78 @@
 
 /* Dish Container Styles */
 .daily-special-container {
-    max-width: 1000px; 
+    max-width: 1100px; 
     margin: 0 auto;
     padding: 0 30px; 
 }
 
 .dish-container {
     background: var(--white);
-    border-radius: 12px;
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 15px 35px rgba(90, 57, 33, 0.12);
     transition: all 0.3s ease;
     display: flex;
     margin-bottom: 40px;
-    padding: 10px;
+    border: 1px solid rgba(199, 161, 122, 0.2);
 }
 
 .dish-container:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(90, 57, 33, 0.2);
 }
+
+
+
+
+
+/* Badge para o prato do dia oficial */
+.dish-container.status-active .dish-badge {
+    background-color: #c7a17a;
+}
+
+/* Badge para alternativa/recomendação - cor sutilmente diferente */
+.dish-container.status-alternative .dish-badge {
+    background-color: #8d7661;
+}
+
+/* Nota sutil integrada à descrição */
+.dish-description .note {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #777;
+    margin-top: 10px;
+    border-top: 1px dotted #ddd;
+    padding-top: 10px;
+}
+
+/* Diferenças sutis nos botões */
+.dish-container.status-active .btn-call-now,
+.dish-container.status-active .reserve-button {
+    background-color: #c7a17a;
+}
+
+.dish-container.status-alternative .btn-call-now,
+.dish-container.status-alternative .reserve-button {
+    background-color: #8d7661;
+}
+
+
+
 
 /* Image Styles */
 .dish-image {
     position: relative;
-    flex: 0 0 300px;
+    flex: 0 0 400px;
     overflow: hidden;
+    border-right: 1px solid rgba(199, 161, 122, 0.1);
 }
 
 .dish-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.7s ease;
 }
 
 .dish-container:hover .dish-image img {
@@ -88,97 +149,185 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
     z-index: 1;
+}
+
+.dish-badge {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    background-color: var(--gold);
+    color: var(--white);
+    padding: 8px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    z-index: 2;
+    border-radius: 4px 0 0 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 /* Info Styles */
 .dish-info {
     flex: 1;
-    padding: 30px;
+    padding: 40px;
     display: flex;
     flex-direction: column;
     text-align: left;
+    position: relative;
 }
 
 .dish-info h3 {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     color: var(--brown-dark);
     margin-bottom: 15px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.dish-separator {
+    width: 80px;
+    height: 3px;
+    background-color: var(--gold);
+    margin-bottom: 20px;
+    border-radius: 2px;
 }
 
 .dish-description p {
     color: var(--text-medium);
-    line-height: 1.7;
-    margin-bottom: 20px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
 }
 
 .dish-price {
     margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.price-label {
+    font-size: 1.1rem;
+    color: var(--text-medium);
+    display: block;
+    margin-bottom: 5px;
 }
 
 .promo-price {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     font-weight: 700;
     color: var(--gold);
     display: block;
+    margin-bottom: 20px;
+}
+
+.dish-cta {
     margin-top: 10px;
+}
+
+.reserve-button {
+    display: inline-block;
+    background-color: var(--gold);
+    color: var(--white);
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.reserve-button:hover {
+    background-color: var(--brown-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(90, 57, 33, 0.2);
 }
 
 /* See More Button */
 .see-more {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .see-more-button {
     display: inline-block;
-    background-color: var(--brown-dark);
-    color: var(--white);
-    padding: 12px 28px;
-    border-radius: 25px;
-    font-size: 1rem;
+    background-color: transparent;
+    color: var(--brown-dark);
+    padding: 14px 32px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    border: 2px solid var(--brown-dark);
 }
 
 .see-more-button:hover {
-    background-color: var(--brown-darker);
+    background-color: var(--brown-dark);
+    color: var(--white);
 }
 
 /* Responsive Design */
+@media (max-width: 992px) {
+    .dish-image {
+        flex: 0 0 350px;
+    }
+    
+    .dish-info {
+        padding: 30px;
+    }
+}
+
 @media (max-width: 768px) {
+    .dish-of-the-day {
+        padding: 60px 0;
+    }
+    
     .dish-container {
         flex-direction: column;
     }
 
     .dish-image {
-        flex: 0 0 250px;
+        flex: 0 0 280px;
         width: 100%;
+        border-right: none;
     }
 
     .dish-info {
-        padding: 25px;
+        padding: 30px 25px;
     }
 
     .dish-info h3 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+    }
+    
+    .dish-badge {
+        font-size: 0.9rem;
     }
 
     .promo-price {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
     }
 }
 
 @media (max-width: 480px) {
     .dish-of-the-day h2 {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
 
     .dish-info {
-        padding: 20px;
+        padding: 25px 20px;
+    }
+    
+    .dish-image {
+        flex: 0 0 220px;
     }
 
+    .decoration-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+    }
+    
     .see-more-button {
         width: 100%;
     }
