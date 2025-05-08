@@ -6,10 +6,14 @@
     <div class="container">
         <h2>Menu</h2>
         <div class="menu-categories">
-            <button class="active" data-category="all">Destaques</button>
-            @foreach($categories as $category)
-            <button data-category="{{ $category->slug }}">{{ $category->name }}</button>
-            @endforeach
+            <div class="highlight-category">
+                <button class="active" data-category="all">Destaques</button>
+            </div>
+            <div class="regular-categories">
+                @foreach($categories as $category)
+                <button data-category="{{ $category->slug }}">{{ $category->name }}</button>
+                @endforeach
+            </div>
         </div>
 
         <h3 class="section-subtitle featured-title">Destaques</h3>

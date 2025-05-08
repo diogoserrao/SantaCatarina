@@ -44,6 +44,27 @@
     display: block;
 }
 
+.about .btn {
+    display: inline-block;
+    background-color: #c7a17a;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(199, 161, 122, 0.3);
+}
+
+.about .btn:hover {
+    background-color: #8b5a2b;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(139, 90, 43, 0.4);
+}
+
 @media (max-width: 768px) {
     .about-content {
         flex-direction: column;

@@ -15,7 +15,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 5px;
     margin-bottom: 50px;
 }
 
@@ -170,22 +170,41 @@
         grid-template-columns: 1fr;
     }
 
+
     .menu-categories {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        justify-items: center;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
         margin-bottom: 30px;
     }
-
-    .menu-categories button {
-        width: 100%;
-        max-width: 140px;
-        text-align: center;
-        font-size: 14px;
-        padding: 10px 15px;
-        border-radius: 20px;
-        white-space: normal;
+    
+    /* Centraliza o botão de Destaques */
+    .highlight-category {
+        display: flex;
+        justify-content: center;
     }
-
+    
+    .highlight-category button {
+        width: 50%;
+        min-width: 150px;
+    }
+    
+    /* Grid para as categorias regulares (2 linhas x 3 colunas) */
+    .regular-categories {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+        gap: 8px;
+    }
+    
+    .menu-categories button {
+        height: 55px;
+        font-size: 13px;
+        padding: 8px;
+        white-space: normal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
 }
