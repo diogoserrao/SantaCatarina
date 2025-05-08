@@ -108,6 +108,9 @@
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .menu-item:hover {
@@ -124,6 +127,9 @@
 
 /* Texto do item */
 .menu-item-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     padding: 20px;
     background-color: #faf7f3;
     transition: background-color 0.3s ease;
@@ -145,6 +151,8 @@
     font-size: 18px;
     font-weight: bold;
     color: #c7a17a;
+    margin-top: auto;
+    padding-top: 15px;
 }
 
 /* Título de secção */
