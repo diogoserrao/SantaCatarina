@@ -4,7 +4,7 @@
 
 <section class="contact" id="contact">
     <div class="container">
-        <h2 >Contacte-nos</h2>
+        <h2>Contacte-nos</h2>
 
         <!-- Seção de reserva em destaque -->
         <div class="reservation-highlight">
@@ -51,7 +51,7 @@
                 <div class="social-links-container">
                     <h3><i class="fas fa-share-alt"></i> Siga-nos</h3>
                     <div class="social-links">
-                        <a href="https://facebook.com/santacatarina" class="social-link facebook" title="Facebook"  target="_blank">
+                        <a href="https://facebook.com/santacatarina" class="facebook" title="Facebook" target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-facebook-f"></i>
                             <span>Siga-nos no Facebook</span>
                         </a>

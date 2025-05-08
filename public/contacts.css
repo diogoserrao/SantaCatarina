@@ -144,8 +144,8 @@
     display: inline-flex;
     align-items: center;
     padding: 8px 15px;
-    color: #fff;
-    background-color: #3b5998;
+    background-color: #4a6ea9 !important;  /* Tom dourado do restaurante */
+    color: #ffffff;
     border-radius: 6px;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -154,9 +154,9 @@
 }
 
 .social-links a.facebook:hover {
-    background-color: #4267B2;
+    background-color: #3b5998 !important; 
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(59, 89, 152, 0.3);
 }
 
 .social-links i {
