@@ -9,7 +9,7 @@
         <div class="gallery-grid">
             @forelse($galleryImages as $image)
             <div class="gallery-item">
-                <img src="{{ $image->image_url }}" alt="{{ $image->title }}">
+                <img src="{{ $image->image_url }}" alt="{{ $image->title }}" loading="lazy">
             </div>
             @empty
             <div class="text-center w-100 py-5">

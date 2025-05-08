@@ -61,7 +61,7 @@
 
             <!-- Banner 2 -->
             <div class="carousel-item">
-                <div class="banner-hero" style="background-image: url('/images/banner2.webp');">
+                <div class="banner-hero" style="background-image: url('/images/banner2.webp');" loading="lazy">
                     <div class="banner-overlay">
                         <div class="banner-content">
                             <h2>Um Ambiente Único</h2>

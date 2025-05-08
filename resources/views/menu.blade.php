@@ -17,7 +17,7 @@
             @foreach($featuredItems as $item)
             <div class="menu-item" data-category="{{ $item->category->slug }}">
                 @if($item->image_url)
-                <img src="{{ $item->image_url }}" alt="{{ $item->name }}">
+                <img src="{{ $item->image_url }}" alt="{{ $item->name }}" loading="lazy">
                 @endif
                 <div class="menu-item-info">
                     <h3>{{ $item->name }}</h3>
