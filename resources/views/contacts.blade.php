@@ -22,7 +22,7 @@
             <div class="contact-info">
                 <div class="info-card location-card">
                     <h3><i class="fas fa-map-marker-alt"></i> Localização</h3>
-                    <p>Estrada dos Canhas, Ponta do Sol</p>
+                    <p>Reta dos Canhas, Ponta do Sol</p>
                     <p>Região Autónoma da Madeira</p>
                 </div>
 
