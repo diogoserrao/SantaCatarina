@@ -41,9 +41,11 @@
                                     <i class="fas fa-edit"></i>
                                 </a>
 
+
                                 <form action="{{ route('admin.categories.destroy', $category) }}"
                                     method="POST"
-                                    onsubmit="return confirm('Tem certeza que deseja excluir esta categoria? Todos os itens relacionados serão desassociados.')">
+                                    data-item-name="{{ $category->name }}"
+                                    data-item-type="categoria">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
@@ -53,6 +55,8 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
+
+
                         </td>
                     </tr>
                     @empty

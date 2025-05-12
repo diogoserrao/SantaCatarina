@@ -124,24 +124,79 @@
     @yield('scripts')
 
     <script>
-        // Auto-dismissal para alertas de sucesso
-        document.addEventListener('DOMContentLoaded', function() {
-            const alerts = document.querySelectorAll('.alert-success');
-            if (alerts.length > 0) {
-                setTimeout(function() {
-                    alerts.forEach(function(alert) {
-                        const closeButton = alert.querySelector('.btn-close');
-                        if (closeButton) {
-                            closeButton.click();
-                        } else {
-                            alert.style.display = 'none';
-                        }
-                    });
-                }, 5000); // 5 segundos
-            }
+         document.addEventListener('DOMContentLoaded', function() {
+        // Variáveis para o modal e form de exclusão
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+        const deleteConfirmBtn = document.getElementById('deleteConfirmBtn');
+        const deleteConfirmModalBody = document.getElementById('deleteConfirmModalBody');
+        let deleteForm = null;
+        
+        // Interceptar cliques em botões de exclusão
+        document.addEventListener('click', function(event) {
+            // Verificar se o clique foi em um botão dentro de um form de exclusão
+            const deleteButton = event.target.closest('button[type="submit"]');
+            if (!deleteButton) return;
+            
+            const form = deleteButton.closest('form');
+            if (!form) return;
+            
+            // Verificar se é um formulário de DELETE
+            const method = form.querySelector('input[name="_method"][value="DELETE"]');
+            if (!method) return;
+            
+            // Prevenir envio do formulário
+            event.preventDefault();
+            
+            // Obter nome do item a partir do atributo data, ou usar texto padrão
+            const itemName = form.getAttribute('data-item-name') || 'este item';
+            const itemType = form.getAttribute('data-item-type') || 'item';
+            
+            // Personalizar mensagem do modal
+            deleteConfirmModalBody.innerHTML = `
+                <p>Tem certeza que deseja excluir <strong>${itemName}</strong>?</p>
+                <p class="text-danger mb-0"><i class="fas fa-exclamation-triangle me-1"></i> Esta ação não pode ser desfeita!</p>
+            `;
+            
+            // Armazenar referência ao formulário
+            deleteForm = form;
+            
+            // Mostrar o modal
+            deleteModal.show();
         });
+        
+        // Ação quando o botão "Sim" é clicado
+        deleteConfirmBtn.addEventListener('click', function() {
+            if (deleteForm) {
+                // Enviar o formulário
+                deleteForm.submit();
+            }
+            
+            // Fechar o modal
+            deleteModal.hide();
+        });
+    });
     </script>
 
+
+ <!-- Modal de Confirmação de Exclusão -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteConfirmModalLabel">Confirmar Eliminação</h5>
+                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body" id="deleteConfirmModalBody">
+                    Tem certeza que deseja excluir este item?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="deleteConfirmBtn">Sim</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 
 </html>

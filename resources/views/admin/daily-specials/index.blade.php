@@ -60,8 +60,11 @@
                                     </button>
                                 </form>
 
-                                <form action="{{ route('admin.daily-specials.destroy', $special) }}" method="POST"
-                                    onsubmit="return confirm('Tem certeza que deseja excluir este prato do dia?')">
+
+                                <form action="{{ route('admin.daily-specials.destroy', $special) }}"
+                                    method="POST"
+                                    data-item-name="{{ $special->name }}"
+                                    data-item-type="prato do dia">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">
@@ -69,6 +72,8 @@
                                         <span class="d-none d-md-inline">Excluir</span>
                                     </button>
                                 </form>
+
+
                             </div>
                         </td>
                     </tr>

@@ -178,28 +178,29 @@
             flex-direction: column;
             width: 100%;
         }
-        
+
         .filter-controls .col-md-4,
         .filter-controls .col-md-3,
         .filter-controls .col-md-2 {
             width: 100%;
             margin-bottom: 1rem;
         }
-        
+
         /* Botão de filtro ocupando toda largura no mobile */
         .filter-button {
             width: 100%;
             margin-top: 0.5rem;
         }
     }
-    
+
     /* Melhorias para tabelas em dispositivos móveis */
     @media (max-width: 767.98px) {
+
         /* Transformar tabela em cards em telas pequenas */
         .mobile-cards thead {
             display: none;
         }
-        
+
         .mobile-cards tbody tr {
             display: flex;
             flex-direction: column;
@@ -208,7 +209,7 @@
             margin-bottom: 1rem;
             padding: 0.75rem;
         }
-        
+
         .mobile-cards td {
             display: flex;
             padding: 0.5rem 0;
@@ -217,7 +218,7 @@
             justify-content: space-between;
             text-align: right;
         }
-        
+
         .mobile-cards td::before {
             content: attr(data-label);
             font-weight: 600;
@@ -225,25 +226,25 @@
             flex: 1;
             padding-right: 1rem;
         }
-        
+
         /* Imagem em tamanho melhor para mobile */
         .mobile-cards .item-image {
             width: 60px !important;
             height: 60px !important;
         }
-        
+
         /* Botões de ação em layout móvel */
         .mobile-cards .action-buttons {
             justify-content: center !important;
             margin-top: 0.5rem;
         }
-        
+
         .mobile-cards .action-buttons .btn {
             width: 44px;
             height: 44px;
             margin: 0 0.25rem;
         }
-        
+
         .mobile-cards .action-buttons .btn i {
             font-size: 16px;
         }
@@ -437,14 +438,18 @@
                                     </button>
                                 </form>
 
-                                <form action="{{ route('admin.menu-items.destroy', $item) }}" method="POST" class="d-inline">
+                                <form action="{{ route('admin.menu-items.destroy', $item) }}"
+                                    method="POST"
+                                    class="d-inline"
+                                    data-item-name="{{ $item->name }}"
+                                    data-item-type="item do menu">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" title="Excluir"
-                                        onclick="return confirm('Tem certeza que deseja excluir o item {{ $item->name }}?')">
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Excluir">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
+
                             </div>
                         </td>
                     </tr>

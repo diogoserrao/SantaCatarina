@@ -30,7 +30,7 @@
                 <tbody>
                     @forelse($banners as $banner)
                     <tr>
-                        
+
                         <td>
                             @if($banner->image_url)
                             <img src="{{ $banner->image_url }}" alt="{{ $banner->title }}"
@@ -75,15 +75,19 @@
                                     </button>
                                 </form>
 
+
                                 <!-- Botão de excluir -->
-                                <form action="{{ route('admin.banners.destroy', $banner) }}" method="POST"
-                                    onsubmit="return confirm('Tem certeza que deseja excluir este banner?')">
+                                <form action="{{ route('admin.banners.destroy', $banner) }}"
+                                    method="POST"
+                                    data-item-name="{{ $banner->title }}"
+                                    data-item-type="banner">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">
-                                        <i class="fas fa-trash"></i>
+                                        <i class="fas fa-trash me-1"></i>
                                     </button>
                                 </form>
+
 
                             </div>
                         </td>

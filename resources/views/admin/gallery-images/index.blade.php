@@ -59,13 +59,16 @@
                                 </form>
 
                                 <form action="{{ route('admin.gallery-images.destroy', $image) }}"
-                                    method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta imagem?')">
+                                    method="POST"
+                                    data-item-name="{{ $image->title }}"
+                                    data-item-type="imagem">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
+                                
                             </div>
                         </td>
                     </tr>
