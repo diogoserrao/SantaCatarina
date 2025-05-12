@@ -41,17 +41,18 @@
         <div class="card bg-warning-soft h-100">
             <div class="card-body">
                 <h5 class="card-title"><i class="fas fa-star me-2"></i>Prato do Dia</h5>
-                <h2>{{ $activeDailySpecial ? 'Ativo' : 'Não Definido' }}</h2>
+                <h2>{{ isset($activeDailySpecial) && $activeDailySpecial->count() > 0 ? 'Ativo' : 'Não Definido' }}</h2>
                 <p class="card-text">
-    @if($activeDailySpecial)
-        <strong>{{ $activeDailySpecial->name }}</strong><br>
-        <span class="badge {{ $activeDailySpecial->is_active ? 'bg-success' : 'bg-danger' }}">
-            {{ $activeDailySpecial->is_active ? 'Ativo' : 'Inativo' }}
-        </span>
-    @else
-        Não há prato do dia definido.
-    @endif
-</p>
+                    @if(isset($activeDailySpecial) && $activeDailySpecial->count() > 0)
+                    <strong>{{ $activeDailySpecial->first()->name }}</strong><br>
+                    @if($activeDailySpecial->count() > 1)
+                    <span class="badge bg-info">+{{ $activeDailySpecial->count() - 1 }} adicional</span><br>
+                    @endif
+                    <span class="badge bg-success">Ativo</span>
+                    @else
+                    Não há prato do dia definido.
+                    @endif
+                </p>
                 <a href="{{ route('admin.daily-specials.index') }}" class="btn btn-sm btn-warning">Gerenciar</a>
             </div>
         </div>
@@ -63,30 +64,39 @@
     <div class="col-lg-6 mb-4">
         <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Prato do Dia Atual</h5>
-                @if($activeDailySpecial)
-                <a href="{{ route('admin.daily-specials.edit', $activeDailySpecial) }}" class="btn btn-sm btn-outline-primary">
+                <h5 class="mb-0">Pratos do Dia Ativos</h5>
+                @if(isset($activeDailySpecial) && $activeDailySpecial->count() > 0)
+                <a href="{{  route('admin.daily-specials.index') }}" class="btn btn-sm btn-outline-primary">
                     <i class="fas fa-edit"></i> Editar
                 </a>
                 @endif
             </div>
             <div class="card-body">
-                @if($activeDailySpecial)
-                <div class="row">
+                @if(isset($activeDailySpecial) && $activeDailySpecial->count() > 0)
+                @foreach($activeDailySpecial as $special)
+                <div class="row mb-3">
+
                     <div class="col-md-4">
-                        <img src="{{ $activeDailySpecial->image_url }}" alt="{{ $activeDailySpecial->name }}" class="img-fluid rounded">
+                        <div style="height: 160px; width: 100%; overflow: hidden;" class="rounded mb-2 mb-md-0">
+                            <img src="{{ $special->image_url }}" alt="{{ $special->name }}"
+                                style="width: 100%; height: 100%; object-fit: cover; object-position: center;"
+                                class="rounded">
+                        </div>
                     </div>
+
                     <div class="col-md-8">
-                        <h5>{{ $activeDailySpecial->name }}</h5>
-                        <p class="text-muted">{{ Str::limit($activeDailySpecial->description, 100) }}</p>
+                        <h5>{{ $special->name }}</h5>
+                        <p class="text-muted">{{ Str::limit($special->description, 100) }}</p>
                         <div class="d-flex justify-content-between">
-                            <span class="badge bg-primary">€{{ number_format($activeDailySpecial->price, 2, ',', ' ') }}</span>
-                            <span class="badge {{ $activeDailySpecial->is_active ? 'bg-success' : 'bg-danger' }}">
-                                {{ $activeDailySpecial->is_active ? 'Ativo' : 'Inativo' }}
-                            </span>
+                            <span class="badge bg-primary">€{{ number_format($special->price, 2, ',', ' ') }}</span>
+                            <span class="badge bg-success">Ativo</span>
                         </div>
                     </div>
                 </div>
+                @if(!$loop->last)
+                <hr>
+                @endif
+                @endforeach
                 @else
                 <div class="text-center py-4">
                     <i class="fas fa-exclamation-circle fa-3x text-muted mb-3"></i>

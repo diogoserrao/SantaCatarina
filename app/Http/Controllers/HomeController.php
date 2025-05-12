@@ -13,13 +13,19 @@ class HomeController extends Controller
 {
     public function index(): View
     {
-       
+
         $banners = Banner::where('is_active', true)->orderBy('display_order')->get();
 
         $categories = Category::all();
         $featuredItems = MenuItem::where('featured', true)->orderBy('display_order')->get();
-        $dailySpecial = DailySpecial::getActive();
+
+        $dailySpecials = DailySpecial::where('is_active', true)
+            ->orderBy('updated_at', 'desc')
+            ->limit(2)
+            ->get();
+
         $galleryImages = GalleryImage::where('is_active', true)->orderBy('display_order')->get();
-        return view('index', compact('categories', 'featuredItems', 'dailySpecial', 'galleryImages', 'banners'));
+       
+        return view('index', compact('categories', 'featuredItems', 'dailySpecials', 'galleryImages', 'banners'));
     }
 }

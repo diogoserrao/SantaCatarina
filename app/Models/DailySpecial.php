@@ -11,7 +11,7 @@ class DailySpecial extends Model
     use HasFactory;
 
     protected $fillable = [
-       'name',
+        'name',
         'description',
         'price',
         'image_url',
@@ -27,7 +27,9 @@ class DailySpecial extends Model
 
     public static function getActive()
     {
-        return self::where('is_active', true)->latest()->first();
+        return self::where('is_active', true)
+            ->orderBy('updated_at', 'desc')
+            ->limit(2)
+            ->get();
     }
-
 }

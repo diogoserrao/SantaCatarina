@@ -10,7 +10,6 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\GalleryImageController;
 use App\Http\Controllers\Admin\ImageUploadController;
-use App\Http\Controllers\DailySpecialController as PublicDailySpecialController;
 use App\Http\Controllers\GalleryController;
 use App\Models\Category;
 use App\Models\MenuItem;
@@ -23,9 +22,7 @@ Route::get('/', [HomeController::class, 'index']);
 
 
 // Rota pública para o prato do dia
-Route::get('/prato-do-dia', [PublicDailySpecialController::class, 'show'])->name('pratododia');
-Route::post('/daily-special/{dailySpecial}/toggle-availability', [PublicDailySpecialController::class, 'toggleAvailability'])
-    ->name('daily-special.toggle-availability');
+
 
 // Adicione esta rota fora do grupo admin
 Route::get('/galeria', [GalleryController::class, 'index'])->name('galeria');

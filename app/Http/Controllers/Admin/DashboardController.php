@@ -15,16 +15,24 @@ class DashboardController extends Controller
     public function dashboard(): View
     {
         $menuItemsCount = MenuItem::count();
+        
         $categoriesCount = Category::count();
-        $activeDailySpecial = DailySpecial::getActive();
+
+        $activeDailySpecial = DailySpecial::where('is_active', true)
+        ->orderBy('updated_at', 'desc')
+        ->limit(2)
+        ->get();
+
         $featuredItems = MenuItem::where('featured', true)
             ->with('category')
             ->orderBy('display_order')
             ->take(5)
             ->get();
+
         $galleryImages = GalleryImage::where('is_active', true)
             ->orderBy('display_order')
             ->get();
+
         $banners = Banner::where('is_active', true)
             ->orderBy('display_order')
             ->get();
