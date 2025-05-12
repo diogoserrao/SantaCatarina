@@ -447,6 +447,16 @@
         flex-direction: column;
     }
     
+    .dishes-grid.single-dish {
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+    }
+    .dishes-grid.single-dish .dish-container {
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 0;
+    }
     .dishes-grid.single-dish .dish-image {
         flex: 0 0 280px;
         width: 100%;
