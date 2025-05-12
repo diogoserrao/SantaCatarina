@@ -82,17 +82,21 @@
                 </div>
             </div>
 
+
             <div class="card mb-4">
                 <div class="card-header">Pré-visualização</div>
                 <div class="card-body">
                     <div id="imagePreview" class="text-center">
-                        <div class="bg-light text-center py-5 mb-3 rounded">
-                            <i class="fas fa-image fa-3x text-muted"></i>
-                            <p class="mt-2 text-muted">Sem imagem</p>
+                        <div style="height: 200px; overflow: hidden; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                            <div class="bg-light text-center py-5 h-100 d-flex flex-column justify-content-center rounded">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                                <p class="mt-2 text-muted">Sem imagem</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
         </div>
     </div>
@@ -103,6 +107,9 @@
     document.addEventListener('DOMContentLoaded', function() {
         const imageInput = document.getElementById('image');
         const imagePreview = document.getElementById('imagePreview');
+        const nameInput = document.getElementById('name');
+        const descriptionInput = document.getElementById('description');
+        const priceInput = document.getElementById('price');
         
         // Pré-visualização da imagem
         imageInput.addEventListener('change', function() {
@@ -110,17 +117,62 @@
                 const reader = new FileReader();
                 
                 reader.onload = function(e) {
-                    imagePreview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded mb-3" alt="Pré-visualização">`;
+                    imagePreview.innerHTML = `
+                        <div style="height: 200px; overflow: hidden; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                            <img src="${e.target.result}" 
+                                 style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                 class="rounded" alt="Pré-visualização">
+                        </div>
+                        <h5>${nameInput.value || 'Nome do Prato'}</h5>
+                        <p class="text-muted small">${descriptionInput.value ? descriptionInput.value.substring(0, 100) + (descriptionInput.value.length > 100 ? '...' : '') : 'Descrição do prato...'}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-success">€${parseFloat(priceInput.value || 0).toFixed(2).replace('.', ',')}</span>
+                        </div>`;
                 }
                 
                 reader.readAsDataURL(this.files[0]);
             } else {
                 // Caso nenhum arquivo seja selecionado
-                imagePreview.innerHTML = `<div class="bg-light text-center py-5 mb-3 rounded">
-                    <i class="fas fa-image fa-3x text-muted"></i>
-                    <p class="mt-2 text-muted">Sem imagem</p>
-                </div>`;
+                imagePreview.innerHTML = `
+                    <div style="height: 200px; overflow: hidden; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                        <div class="bg-light text-center py-5 h-100 d-flex flex-column justify-content-center rounded">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                            <p class="mt-2 text-muted">Sem imagem</p>
+                        </div>
+                    </div>
+                    <h5>${nameInput.value || 'Nome do Prato'}</h5>
+                    <p class="text-muted small">${descriptionInput.value ? descriptionInput.value.substring(0, 100) + (descriptionInput.value.length > 100 ? '...' : '') : 'Descrição do prato...'}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-success">€${parseFloat(priceInput.value || 0).toFixed(2).replace('.', ',')}</span>
+                    </div>`;
             }
         });
+        
+        // Atualização dinâmica para outros campos
+        const updatePreview = function() {
+            const previewImage = imagePreview.querySelector('img');
+            const imagePresent = previewImage !== null;
+            
+            if (imagePresent) {
+                const previewHTML = `
+                    <div style="height: 200px; overflow: hidden; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                        <img src="${previewImage.src}" 
+                             style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                             class="rounded" alt="Pré-visualização">
+                    </div>
+                    <h5>${nameInput.value || 'Nome do Prato'}</h5>
+                    <p class="text-muted small">${descriptionInput.value ? descriptionInput.value.substring(0, 100) + (descriptionInput.value.length > 100 ? '...' : '') : 'Descrição do prato...'}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-success">€${parseFloat(priceInput.value || 0).toFixed(2).replace('.', ',')}</span>
+                    </div>`;
+                
+                imagePreview.innerHTML = previewHTML;
+            }
+        };
+        
+        // Atualizar preview quando os campos forem alterados
+        nameInput.addEventListener('input', updatePreview);
+        descriptionInput.addEventListener('input', updatePreview);
+        priceInput.addEventListener('input', updatePreview);
     });
 </script>
