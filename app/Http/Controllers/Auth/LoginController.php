@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -44,6 +45,18 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        // Limpar todos os cookies de sessão
+        $cookieNames = ['laravel_session', 'XSRF-TOKEN'];
+        
+        foreach ($cookieNames as $name) {
+            $cookie = cookie($name, '', -1); // expira imediatamente
+            Cookie::queue($cookie);
+        }
+
+        if ($request->has('redirect_to') && $request->redirect_to === 'login') {
+            return redirect('/login');
+        }
 
         return redirect('/');
     }

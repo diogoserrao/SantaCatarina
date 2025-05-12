@@ -77,7 +77,7 @@
                             <i class="fas fa-list me-1"></i> Banners
                         </a>
                     </li>
-                    
+
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
@@ -86,11 +86,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST" class="m-0">
+                        <a href="#" onclick="handleLogout(); return false;" class="nav-link text-danger  rounded ms-2">
+                            <i class="fas fa-sign-out-alt me-1"></i> Sair
+                        </a>
+                        <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
                             @csrf
-                            <button type="submit" class="nav-link border-0 bg-transparent">
-                                <i class="fas fa-sign-out-alt me-1 text-danger"></i> Sair
-                            </button>
                         </form>
                     </li>
                 </ul>
@@ -120,65 +120,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    @yield('scripts')
-
-    <script>
-         document.addEventListener('DOMContentLoaded', function() {
-        // Variáveis para o modal e form de exclusão
-        const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-        const deleteConfirmBtn = document.getElementById('deleteConfirmBtn');
-        const deleteConfirmModalBody = document.getElementById('deleteConfirmModalBody');
-        let deleteForm = null;
-        
-        // Interceptar cliques em botões de exclusão
-        document.addEventListener('click', function(event) {
-            // Verificar se o clique foi em um botão dentro de um form de exclusão
-            const deleteButton = event.target.closest('button[type="submit"]');
-            if (!deleteButton) return;
-            
-            const form = deleteButton.closest('form');
-            if (!form) return;
-            
-            // Verificar se é um formulário de DELETE
-            const method = form.querySelector('input[name="_method"][value="DELETE"]');
-            if (!method) return;
-            
-            // Prevenir envio do formulário
-            event.preventDefault();
-            
-            // Obter nome do item a partir do atributo data, ou usar texto padrão
-            const itemName = form.getAttribute('data-item-name') || 'este item';
-            const itemType = form.getAttribute('data-item-type') || 'item';
-            
-            // Personalizar mensagem do modal
-            deleteConfirmModalBody.innerHTML = `
-                <p>Tem certeza que deseja excluir <strong>${itemName}</strong>?</p>
-                <p class="text-danger mb-0"><i class="fas fa-exclamation-triangle me-1"></i> Esta ação não pode ser desfeita!</p>
-            `;
-            
-            // Armazenar referência ao formulário
-            deleteForm = form;
-            
-            // Mostrar o modal
-            deleteModal.show();
-        });
-        
-        // Ação quando o botão "Sim" é clicado
-        deleteConfirmBtn.addEventListener('click', function() {
-            if (deleteForm) {
-                // Enviar o formulário
-                deleteForm.submit();
-            }
-            
-            // Fechar o modal
-            deleteModal.hide();
-        });
-    });
-    </script>
-
-
- <!-- Modal de Confirmação de Exclusão -->
+    <!-- Modal de Confirmação de Exclusão -->
     <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -196,6 +138,88 @@
             </div>
         </div>
     </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    @yield('scripts')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variáveis para o modal e form de exclusão
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+            const deleteConfirmBtn = document.getElementById('deleteConfirmBtn');
+            const deleteConfirmModalBody = document.getElementById('deleteConfirmModalBody');
+            let deleteForm = null;
+
+            // Interceptar cliques em botões de exclusão
+            document.addEventListener('click', function(event) {
+                // Verificar se o clique foi em um botão dentro de um form de exclusão
+                const deleteButton = event.target.closest('button[type="submit"]');
+                if (!deleteButton) return;
+
+                const form = deleteButton.closest('form');
+                if (!form) return;
+
+                // Verificar se é um formulário de DELETE
+                const method = form.querySelector('input[name="_method"][value="DELETE"]');
+                if (!method) return;
+
+                // Prevenir envio do formulário
+                event.preventDefault();
+
+                // Obter nome do item a partir do atributo data, ou usar texto padrão
+                const itemName = form.getAttribute('data-item-name') || 'este item';
+                const itemType = form.getAttribute('data-item-type') || 'item';
+
+                // Personalizar mensagem do modal
+                deleteConfirmModalBody.innerHTML = `
+                <p>Tem certeza que deseja excluir <strong>${itemName}</strong>?</p>
+                <p class="text-danger mb-0"><i class="fas fa-exclamation-triangle me-1"></i> Esta ação não pode ser desfeita!</p>
+            `;
+
+                // Armazenar referência ao formulário
+                deleteForm = form;
+
+                // Mostrar o modal
+                deleteModal.show();
+            });
+
+            // Ação quando o botão "Sim" é clicado
+            deleteConfirmBtn.addEventListener('click', function() {
+                if (deleteForm) {
+                    // Enviar o formulário
+                    deleteForm.submit();
+                }
+
+                // Fechar o modal
+                deleteModal.hide();
+            });
+        });
+
+        function handleLogout() {
+            const form = document.getElementById('logout-form');
+
+            // Envie o formulário com AJAX para evitar problemas de CSRF
+            fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    credentials: 'same-origin'
+                })
+                .finally(() => {
+                    // Redireciona para a página principal após o logout
+                    window.location.href = '/'; // Ou use uma rota nomeada
+                });
+
+            return false;
+        }
+    </script>
+
+
+
 </body>
 
 

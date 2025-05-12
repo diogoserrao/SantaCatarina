@@ -11,16 +11,22 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\GalleryImageController;
 use App\Http\Controllers\Admin\ImageUploadController;
 use App\Http\Controllers\GalleryController;
-use App\Models\Category;
-use App\Models\MenuItem;
-use App\Models\DailySpecial;
-use App\Models\GalleryImage;
-use App\Models\Banner;
+use Illuminate\Support\Facades\Auth;
+
 
 // Rota principal (página inicial)
 Route::get('/', [HomeController::class, 'index']);
 
+// Rota de logout padrão
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// Rota adicional para logout com redirecionamento para login
+Route::post('/logout-to-login', function() {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/login');
+})->name('logout.to.login');
 // Rota pública para o prato do dia
 
 
