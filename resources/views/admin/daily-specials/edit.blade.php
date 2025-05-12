@@ -59,7 +59,7 @@
 
                             <input type="hidden" name="current_image" value="{{ $dailySpecial->image_url }}">
 
-                           
+
                         </div>
                     </div>
 
@@ -87,22 +87,27 @@
                 <div class="card-header">Pré-visualização</div>
                 <div class="card-body">
                     <div id="imagePreview" class="text-center">
-                        @if($dailySpecial->image_url)
-                        <img src="{{ $dailySpecial->image_url }}" alt="{{ $dailySpecial->name }}" class="img-fluid rounded mb-3">
-                        @else
-                        <div class="bg-light text-center py-5 mb-3 rounded">
-                            <i class="fas fa-image fa-3x text-muted"></i>
-                            <p class="mt-2 text-muted">Sem imagem</p>
+                        <div style="height: 200px; overflow: hidden; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                            @if($dailySpecial->image_url)
+                            <img src="{{ $dailySpecial->image_url }}" alt="{{ $dailySpecial->name }}"
+                                style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                class="rounded">
+                            @else
+                            <div class="bg-light text-center py-5 h-100 d-flex flex-column justify-content-center rounded">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                                <p class="mt-2 text-muted">Sem imagem</p>
+                            </div>
+                            @endif
                         </div>
-                        @endif
                     </div>
-                    
+
                     <h5>{{ $dailySpecial->name }}</h5>
                     <p class="text-muted small">{{ Str::limit($dailySpecial->description, 100) }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-success">€{{ number_format($dailySpecial->price, 2, ',', ' ') }}</span>
                     </div>
                 </div>
+
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary w-100">
                         <i class="fas fa-save me-1"></i> Atualizar
@@ -116,30 +121,44 @@
 @endsection
 
 <script>
-     document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
         const imageInput = document.getElementById('image');
         const imagePreview = document.getElementById('imagePreview');
         const currentImageUrl = "{{ $dailySpecial->image_url }}";
-        
+
         // Função para atualizar a pré-visualização
         imageInput.addEventListener('change', function() {
             if (this.files && this.files[0]) {
                 const reader = new FileReader();
-                
+
                 reader.onload = function(e) {
-                    imagePreview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded mb-3" alt="Pré-visualização">`;
+                    // Corrigido para corresponder ao estilo inicial
+                    imagePreview.innerHTML = `
+                        <div style="height: 200px; overflow: hidden; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                            <img src="${e.target.result}" 
+                                 style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                 class="rounded" alt="Pré-visualização">
+                        </div>`;
                 }
-                
+
                 reader.readAsDataURL(this.files[0]);
             } else {
                 // Caso nenhum arquivo seja selecionado, mostrar a imagem atual
                 if (currentImageUrl) {
-                    imagePreview.innerHTML = `<img src="${currentImageUrl}" class="img-fluid rounded mb-3" alt="Imagem atual">`;
+                    imagePreview.innerHTML = `
+                        <div style="height: 200px; overflow: hidden; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                            <img src="${currentImageUrl}" 
+                                 style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                 class="rounded" alt="Imagem atual">
+                        </div>`;
                 } else {
-                    imagePreview.innerHTML = `<div class="bg-light text-center py-5 mb-3 rounded">
-                        <i class="fas fa-image fa-3x text-muted"></i>
-                        <p class="mt-2 text-muted">Sem imagem</p>
-                    </div>`;
+                    imagePreview.innerHTML = `
+                       <div style="height: 200px; overflow: hidden; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                            <div class="bg-light text-center py-5 h-100 d-flex flex-column justify-content-center rounded">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                                <p class="mt-2 text-muted">Sem imagem</p>
+                            </div>
+                       </div>`;
                 }
             }
         });
