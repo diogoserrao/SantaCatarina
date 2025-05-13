@@ -124,8 +124,11 @@ class BannerController extends Controller
     {
         // Remover imagem se não for uma imagem padrão
         if ($banner->image_url && !str_starts_with($banner->image_url, '/images/')) {
-            $path = str_replace('/storage/', 'public/', $banner->image_url);
-            Storage::delete($path);
+            // Remove o prefixo '/storage/' para obter o caminho relativo ao disco 'public'
+            $storagePath = str_replace('/storage/', '', $banner->image_url);
+            if (Storage::disk('public')->exists($storagePath)) {
+                Storage::disk('public')->delete($storagePath);
+            }
         }
 
         $banner->delete();
@@ -149,5 +152,4 @@ class BannerController extends Controller
         return redirect()->route('admin.banners.index')
             ->with('success', "Banner {$status} com sucesso!");
     }
-    
 }

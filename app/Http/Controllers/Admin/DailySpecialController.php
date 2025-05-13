@@ -191,6 +191,14 @@ class DailySpecialController extends Controller
     // Excluir prato
     public function destroy(DailySpecial $dailySpecial): RedirectResponse
     {
+        // Apagar a imagem do disco, se existir
+        if ($dailySpecial->image_url) {
+            $imagePath = public_path(ltrim($dailySpecial->image_url, '/'));
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
         $dailySpecial->delete();
 
         return redirect()->route('admin.daily-specials.index')
