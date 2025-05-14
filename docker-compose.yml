@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    image: php:8.2-apache
+    container_name: santacatarina_app
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=santacatarina
+      - DB_USERNAME=root
+      - DB_PASSWORD=
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    command: bash -c "docker-php-ext-install pdo_mysql && composer install && php artisan migrate && apache2-foreground"
+
+  db:
+    image: mysql:8.0
+    container_name: santacatarina_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: santacatarina
+      MYSQL_ROOT_PASSWORD:
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
