@@ -30,8 +30,6 @@ Route::post('/logout-to-login', function() {
 // Rota pública para o prato do dia
 
 
-// Adicione esta rota fora do grupo admin
-Route::get('/galeria', [GalleryController::class, 'index'])->name('galeria');
 
 // Autenticação - estas rotas devem estar acessíveis para não autenticados
 Route::middleware('guest')->group(function () {

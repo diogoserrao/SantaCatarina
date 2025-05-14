@@ -182,6 +182,16 @@ class MenuItemController extends Controller
     // Excluir item
     public function destroy(MenuItem $menuItem): RedirectResponse
     {
+        if ($menuItem->image_url) {
+            // Remove a barra inicial se existir
+            $relativePath = ltrim($menuItem->image_url, '/');
+            $imagePath = public_path($relativePath);
+
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
         $menuItem->delete();
 
         return redirect()->route('admin.menu-items.index')

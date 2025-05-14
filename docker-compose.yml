@@ -31,4 +31,8 @@ services:
       - dbdata:/var/lib/mysql
 
 volumes:
+<<<<<<< HEAD
   dbdata:
+=======
+  dbdata:
+>>>>>>> aaddd0fa37861072a0c72c2fec0dc44e105b88e6

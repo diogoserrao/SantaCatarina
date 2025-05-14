@@ -119,6 +119,14 @@ class GalleryImageController extends Controller
      */
     public function destroy(GalleryImage $galleryImage)
     {
+        if ($galleryImage->image_url && !str_starts_with($galleryImage->image_url, '/images/')) {
+            // Remove o prefixo '/storage/' para obter o caminho relativo ao disco 'public'
+            $storagePath = str_replace('/storage/', '', $galleryImage->image_url);
+            if (Storage::disk('public')->exists($storagePath)) {
+                Storage::disk('public')->delete($storagePath);
+            }
+        }
+
         $galleryImage->delete();
 
         return redirect()->route('admin.gallery-images.index')
